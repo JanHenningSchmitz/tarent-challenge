@@ -1,6 +1,6 @@
 INSERT INTO product (id, name, sku) VALUES (1, 'Milch', '102');
 INSERT INTO product (id, name, sku) VALUES (2, 'Brot', '2035');
-INSERT INTO product (id, name, sku) VALUES (3, 'Käse', 'S-155');
+INSERT INTO product (id, name, sku) VALUES (3, 'Kaese', 'S-155');
 INSERT INTO product (id, name, sku) VALUES (4, 'Wurst', '1488');
 INSERT INTO product (id, name, sku) VALUES (5, 'Couscous', 'B001');
 

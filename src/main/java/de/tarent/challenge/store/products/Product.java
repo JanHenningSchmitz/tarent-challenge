@@ -26,7 +26,8 @@ public class Product {
     @ElementCollection
     private Set<String> eans;
 
-    private Product() {
+    @SuppressWarnings("unused") // For JPA
+	private Product() {
     }
 
     public Product(String sku, String name, Set<String> eans) {
