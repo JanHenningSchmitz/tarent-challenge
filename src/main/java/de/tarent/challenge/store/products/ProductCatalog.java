@@ -7,6 +7,5 @@ public interface ProductCatalog extends JpaRepository<Product, Long> {
 
     Optional<Product> findBySku(String sku);
     
-//    void insertProduct(Product product);
 
 }

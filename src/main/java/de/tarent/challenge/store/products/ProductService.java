@@ -22,7 +22,23 @@ public class ProductService {
 		return productCatalog.findBySku(sku);
 	}
 
-	// public void insertProduct(Product product) {
-	// productCatalog.insertProduct(product);
-	// }
+	public Product save(Product product) {
+		return productCatalog.saveAndFlush(product);
+	}
+	
+	public void delete(Product product) {
+		productCatalog.delete(product);
+	}	
+	
+	/**
+	 * JUST FOR TESTING!
+	 * TODO: Anyway to keep this out of the Production Build?
+	 */
+	public void deleteAll() {
+		productCatalog.deleteAll();
+	}
+	
+	public Product change(Product product) {
+		return productCatalog.saveAndFlush(product);
+	}
 }
