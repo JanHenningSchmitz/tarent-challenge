@@ -2,14 +2,14 @@ package de.tarent.challenge.store.chart;
 
 import static javax.persistence.GenerationType.AUTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import com.google.common.base.MoreObjects;
 
@@ -24,8 +24,8 @@ public class Chart {
 
 	private String name;
 
-	@OneToMany(targetEntity = Chartitem.class)
-	private List<Chartitem> chartitems;
+	@ElementCollection
+	private Set<Chartitem> chartitems;
 
 	// TODO Could this be a automatic field?
 	private double totalprice;
@@ -36,7 +36,7 @@ public class Chart {
 
 	public Chart(String name) {
 		this.name = name;
-		this.chartitems = new ArrayList<>();
+		this.chartitems = new HashSet<>();
 		this.totalprice = 0;
 	}
 
@@ -44,7 +44,7 @@ public class Chart {
 		return this.name;
 	}
 
-	public List<Chartitem> getChartitems() {
+	public Set<Chartitem> getChartitems() {
 		return chartitems;
 	}
 
@@ -55,7 +55,7 @@ public class Chart {
 	public void setTotalprice(double totalprice) {
 		this.totalprice = totalprice;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

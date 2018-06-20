@@ -115,11 +115,6 @@ public class StoreApplicationTests {
 
 		String testUserName = "TestUser";
 		
-		Product product = TEST_PRODUCTS[0];
-		int quantity = 2;
-		double price = product.getPrice();
-		double expectetPrice = quantity * price;
-
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(testUserName))
 				.andExpect(status().isCreated());
 
@@ -127,18 +122,30 @@ public class StoreApplicationTests {
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
 				.andExpect(jsonPath("$.totalprice", is(0.0)))
 				.andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
-		
-		Chartitem item = new Chartitem(product.getSku(), 2);
+
+		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
+		addItemsToChart(TEST_PRODUCTS[0], testUserName, 2);
+		readChart(testUserName, expectetPrice);
+
+		expectetPrice += TEST_PRODUCTS[1].getPrice() * 5;
+		addItemsToChart(TEST_PRODUCTS[1], testUserName, 5);
+		readChart(testUserName, expectetPrice);
+	}
+	
+	private void readChart(String name, double expectetPrice) throws Exception{
+		this.mockMvc.perform(get("/charts/" + name)).andExpect(status().isOk())
+		.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(name)))
+		.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
+		//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
+	}
+	
+	private void addItemsToChart(Product product, String name, int quantity) throws Exception{
+
+		Chartitem item = new Chartitem(product.getSku(), quantity);
 		String json = json(item);
 		
-		this.mockMvc.perform(put("/charts/"+testUserName)
+		this.mockMvc.perform(put("/charts/"+name)
 			.contentType(contentType).content(json)).andExpect(status().isOk());
-
-		this.mockMvc.perform(get("/charts/" + testUserName)).andExpect(status().isOk())
-				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
-				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
-				//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
-
 	}
 
 	/**

@@ -3,22 +3,14 @@ package de.tarent.challenge.store.chart.item;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
 import com.google.common.base.MoreObjects;
 
-@Entity
-@IdClass(Chartitem.class)
 public class Chartitem implements Serializable {
 
 	private static final long serialVersionUID = -3684297046665909369L;
 
-	@Id
 	private String sku;
 
-	@Id
 	private int quantity;
 
 	@SuppressWarnings("unused") // For JPA
