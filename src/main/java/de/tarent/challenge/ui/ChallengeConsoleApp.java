@@ -14,7 +14,7 @@ public class ChallengeConsoleApp {
 
 	public static final String URL = "http://localhost:8080/";
 	public static final String PRODUCTS = "products";
-	
+
 	public static void readAll() {
 		System.out.println("---Read All---");
 		try {
@@ -22,9 +22,10 @@ public class ChallengeConsoleApp {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
-			
+
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+				return;
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -33,7 +34,7 @@ public class ChallengeConsoleApp {
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}
-			
+
 			conn.disconnect();
 
 		} catch (MalformedURLException e) {
@@ -46,7 +47,7 @@ public class ChallengeConsoleApp {
 
 		}
 	}
-	
+
 	public static void readBySKU(String sku) {
 		System.out.println("---Read by SKU---");
 		try {
@@ -54,9 +55,10 @@ public class ChallengeConsoleApp {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
-			
+
 			if (conn.getResponseCode() != 200) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+				return;
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -65,7 +67,7 @@ public class ChallengeConsoleApp {
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}
-			
+
 			conn.disconnect();
 
 		} catch (MalformedURLException e) {
@@ -79,7 +81,6 @@ public class ChallengeConsoleApp {
 		}
 	}
 
-	
 	public static void add(String sku, String name, Set<String> eans) {
 		System.out.println("---Add---");
 		try {
@@ -88,24 +89,29 @@ public class ChallengeConsoleApp {
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
-				
-			String eansString = "[";
-			for(String ean : eans) {
-				eansString += "\""+ean+"\"";
+
+			String eansString = null;
+
+			if (eans != null) {
+				eansString = "[";
+				for (String ean : eans) {
+					eansString += "\"" + ean + "\"";
+				}
+				eansString += "]";
 			}
-			eansString += "]";
-			
-			String input = "{\"sku\":\""+sku+"\",\"name\":\""+name+"\",\"eans\":"+eansString+"}";
+
+			String input = "{\"sku\":\"" + sku + "\",\"name\":\"" + name + "\",\"eans\":" + eansString + "}";
 
 			OutputStream os = conn.getOutputStream();
 			os.write(input.getBytes());
 			os.flush();
-			
+
 			System.out.println("input: " + input);
 			System.out.println("Return: " + conn.getResponseCode());
-			
+
 			if (conn.getResponseCode() != 201) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+				return;
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -114,7 +120,7 @@ public class ChallengeConsoleApp {
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}
-			
+
 			conn.disconnect();
 
 		} catch (MalformedURLException e) {
@@ -127,7 +133,7 @@ public class ChallengeConsoleApp {
 
 		}
 	}
-	
+
 	public static void put(String sku, String name, Set<String> eans) {
 		System.out.println("---Put---");
 		try {
@@ -136,23 +142,24 @@ public class ChallengeConsoleApp {
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
-				
+
 			String eansString = "[";
-			for(String ean : eans) {
-				eansString += "\""+ean+"\"";
+			for (String ean : eans) {
+				eansString += "\"" + ean + "\"";
 			}
 			eansString += "]";
-			
-			String input = "{\"sku\":\""+sku+"\",\"name\":\""+name+"\",\"eans\":"+eansString+"}";
+
+			String input = "{\"sku\":\"" + sku + "\",\"name\":\"" + name + "\",\"eans\":" + eansString + "}";
 
 			OutputStream os = conn.getOutputStream();
 			os.write(input.getBytes());
 			os.flush();
-			
+
 			System.out.println("input: " + input);
-			
+
 			if (conn.getResponseCode() != 201) {
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				System.out.println("Failed : HTTP error code : " + conn.getResponseCode());
+				return;
 			}
 
 			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -161,7 +168,6 @@ public class ChallengeConsoleApp {
 			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}
-			
 			conn.disconnect();
 
 		} catch (MalformedURLException e) {
@@ -174,19 +180,37 @@ public class ChallengeConsoleApp {
 
 		}
 	}
-	
+
 	public static void main(String[] args) {
 
+		// Read all the predefined values
 		readAll();
+		// Read all one specific predefined value
 		readBySKU("102");
+		// Add a new product
 		Set<String> eans = new HashSet<String>();
 		eans.add("01010101");
 		add("666", "Ipad", eans);
+		// read the new Product
 		readBySKU("666");
-		
-//		put("666", "Ipad2", eans);
-//		readBySKU("666");
+		// try to add the same product again - should be an error
+		add("666", "Ipad", eans);
+		// try to add an null sku - should be an error
+		add(null, "Ipad", eans);
+		// try to add an empty sku - should be an error
+		add("   ", "Ipad", eans);
+		// try to add an null name - should be an error
+		add("777", null, eans);
+		// try to add an empty name - should be an error
+		add("777", "   ", eans);
+		// try to add an null ean set - should be an error
+		add("777", "nullEans", null);
+		// try to add an empty ean set - should be an error
+		add("777", "nullEans", new HashSet<String>());
+
+		// put("666", "Ipad2", eans);
+		// readBySKU("666");
 
 	}
-	
+
 }
