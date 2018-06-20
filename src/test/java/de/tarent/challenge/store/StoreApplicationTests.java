@@ -79,23 +79,23 @@ public class StoreApplicationTests {
 		// Specify the first for later testing
 		Set<String> tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("00000000"));
-		TEST_PRODUCTS[0] = (new Product("test0", "test0", tmp_EANS));
+		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5,  tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("11111111"));
-		TEST_PRODUCTS[1] = (new Product("test1", "test1", tmp_EANS));
+		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0,  tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("22222222"));
-		TEST_PRODUCTS[2] = (new Product("test2", "test2", tmp_EANS));
+		TEST_PRODUCTS[2] = (new Product("test2", "test2", 2.7, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("33333333"));
-		TEST_PRODUCTS[3] = (new Product("test3", "test3", tmp_EANS));
+		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11,  tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("44444444"));
-		TEST_PRODUCTS[4] = (new Product("test4", "test4", tmp_EANS));
+		TEST_PRODUCTS[4] = (new Product("test4", "test4", 47.11, tmp_EANS));
 
 		// Inserting the given test data
 		for (int i = 0; i < TEST_PRODUCTS.length; i++) {
@@ -117,10 +117,11 @@ public class StoreApplicationTests {
 
 		String sku = "4545";
 		String name = "ShortLive";
+		double price = 2.22;
 		Set<String> tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("12344321", "77777777", "23498128"));
 
-		Product tmp_Product = new Product(sku, name, tmp_EANS);
+		Product tmp_Product = new Product(sku, name, price, tmp_EANS);
 		String json = json(tmp_Product);
 
 		this.mockMvc.perform(post("/products").contentType(contentType).content(json)).andExpect(status().isCreated());

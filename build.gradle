@@ -20,5 +20,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'com.google.guava:guava:23.6-jre'
     runtime 'com.h2database:h2'
+    compile 'org.json:json:20171018'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

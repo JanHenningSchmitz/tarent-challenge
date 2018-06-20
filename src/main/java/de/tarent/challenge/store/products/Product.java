@@ -23,6 +23,11 @@ public class Product {
 
     private String name;
 
+    /*## Task 2: Prices for products
+		- Extend the `Product` class with information about its price.
+	*/
+    private double price;
+
     @ElementCollection
     private Set<String> eans;
 
@@ -30,10 +35,11 @@ public class Product {
 	private Product() {
     }
 
-    public Product(String sku, String name, Set<String> eans) {
+    public Product(String sku, String name, double price, Set<String> eans) {
         this.sku = sku;
         this.name = name;
         this.eans = eans;
+        this.price = price;
     }
 
     public String getSku() {
@@ -47,6 +53,10 @@ public class Product {
     public Set<String> getEans() {
         return Sets.newHashSet(eans);
     }
+    
+    public double getPrice() {
+    	return this.price;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,12 +66,13 @@ public class Product {
         return Objects.equals(id, product.id) &&
                 Objects.equals(sku, product.sku) &&
                 Objects.equals(name, product.name) &&
-                Objects.equals(eans, product.eans);
+                Objects.equals(eans, product.eans) &&
+                Objects.equals(price, product.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sku, name, eans);
+        return Objects.hash(id, sku, name, eans, price);
     }
 
     @Override
@@ -71,6 +82,7 @@ public class Product {
                 .add("sku", sku)
                 .add("name", name)
                 .add("eans", eans)
+                .add("price", price)
                 .toString();
     }
 }
