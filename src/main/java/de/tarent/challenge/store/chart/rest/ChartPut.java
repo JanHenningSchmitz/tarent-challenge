@@ -44,7 +44,7 @@ public class ChartPut {
 		chart.setTotalprice(totalprice);
 
 		try {
-			return this.chartService.addItems(chart);
+			return this.chartService.changeItems(chart);
 		} catch (Exception e) {
 			System.out.println(e);
 			throw new ErrorWhileAddingItem(name, product.getSku(), quantity);

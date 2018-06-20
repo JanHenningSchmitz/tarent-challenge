@@ -73,5 +73,18 @@ public class ChartController {
 		return chartPut.addItem(name, item.getSku(), item.getQuantity());
 
 	}
+	 
+	/**
+	 * Delete an Item from the Chart
+	 * @param name
+	 * @param item
+	 * @return
+	 */
+	 @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
+
+		return chartPut.addItem(name, item.getSku(), item.getQuantity());
+
+	}
 
 }

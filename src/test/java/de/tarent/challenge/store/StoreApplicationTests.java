@@ -136,6 +136,7 @@ public class StoreApplicationTests {
 		this.mockMvc.perform(get("/charts/" + name)).andExpect(status().isOk())
 		.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(name)))
 		.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
+		// TODO Numbers of Elements should also be checked
 		//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
 	}
 	

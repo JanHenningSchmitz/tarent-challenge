@@ -12,7 +12,7 @@ public class ChartService {
 	public ChartService(ChartCatalog chartCatalog) {
 		this.chartCatalog = chartCatalog;
 	}
-	
+
 	public Chart createNewChart(Chart chart) {
 		return chartCatalog.saveAndFlush(chart);
 	}
@@ -25,7 +25,7 @@ public class ChartService {
 		return chartCatalog.findByName(name);
 	}
 
-	public Chart addItems(Chart chart) {
+	public Chart changeItems(Chart chart) {
 		return chartCatalog.saveAndFlush(chart);
 	}
 }
