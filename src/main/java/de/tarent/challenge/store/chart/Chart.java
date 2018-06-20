@@ -52,6 +52,10 @@ public class Chart {
 		return totalprice;
 	}
 
+	public void setTotalprice(double totalprice) {
+		this.totalprice = totalprice;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

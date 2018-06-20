@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
+import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
 @RunWith(SpringRunner.class)
@@ -112,6 +114,11 @@ public class StoreApplicationTests {
 	public void createNewChartAndAddItems() throws Exception {
 
 		String testUserName = "TestUser";
+		
+		Product product = TEST_PRODUCTS[0];
+		int quantity = 2;
+		double price = product.getPrice();
+		double expectetPrice = quantity * price;
 
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(testUserName))
 				.andExpect(status().isCreated());
@@ -120,6 +127,17 @@ public class StoreApplicationTests {
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
 				.andExpect(jsonPath("$.totalprice", is(0.0)))
 				.andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
+		
+		Chartitem item = new Chartitem(product.getSku(), 2);
+		String json = json(item);
+		
+		this.mockMvc.perform(put("/charts/"+testUserName)
+			.contentType(contentType).content(json)).andExpect(status().isOk());
+
+		this.mockMvc.perform(get("/charts/" + testUserName)).andExpect(status().isOk())
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
+				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
+				//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
 
 	}
 
