@@ -13,7 +13,7 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ChallengeConsoleApp {
+public class ChallengeProductConsoleApp {
 
 	public static final String URL = "http://localhost:8080/";
 	public static final String PRODUCTS = "products";

@@ -74,7 +74,7 @@ public class ProductController {
 
 		Product result = this.productService.save(input);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getSku())
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/products/{id}").buildAndExpand(result.getSku())
 				.toUri();
 
 		return ResponseEntity.created(location).build();

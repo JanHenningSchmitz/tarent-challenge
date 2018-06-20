@@ -3,7 +3,9 @@ package de.tarent.challenge.store;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,11 +81,11 @@ public class StoreApplicationTests {
 		// Specify the first for later testing
 		Set<String> tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("00000000"));
-		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5,  tmp_EANS));
+		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("11111111"));
-		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0,  tmp_EANS));
+		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("22222222"));
@@ -91,7 +93,7 @@ public class StoreApplicationTests {
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("33333333"));
-		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11,  tmp_EANS));
+		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("44444444"));
@@ -103,6 +105,21 @@ public class StoreApplicationTests {
 			this.mockMvc.perform(post("/products").contentType(contentType).content(json(TEST_PRODUCTS[i])))
 					.andExpect(status().isCreated());
 		}
+
+	}
+
+	@Test
+	public void createNewChartAndAddItems() throws Exception {
+
+		String testUserName = "TestUser";
+
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(testUserName))
+				.andExpect(status().isCreated());
+
+		this.mockMvc.perform(get("/charts/" + testUserName)).andExpect(status().isOk())
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
+				.andExpect(jsonPath("$.totalprice", is(0.0)))
+				.andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
 
 	}
 

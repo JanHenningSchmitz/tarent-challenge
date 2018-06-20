@@ -28,6 +28,8 @@ You can start the service locally with Gradle:
 ```
 ./gradlew bootRun
 ```
+Debug with
+./gradlew bootRun --debug-jvm
 
 
 
