@@ -1,7 +1,5 @@
 package de.tarent.challenge.store.products;
 
-import java.net.URI;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,25 +9,31 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import de.tarent.challenge.exeptions.EanIsEmptyException;
-import de.tarent.challenge.exeptions.ErrorWhileChangingException;
-import de.tarent.challenge.exeptions.InvalidProductNameException;
-import de.tarent.challenge.exeptions.InvalidSkuException;
-import de.tarent.challenge.exeptions.NoEansException;
-import de.tarent.challenge.exeptions.PriceLowerZeroException;
-import de.tarent.challenge.exeptions.ProductAllreadyInUseException;
-import de.tarent.challenge.exeptions.SkuNotFoundException;
+import de.tarent.challenge.store.products.rest.ProductDelete;
+import de.tarent.challenge.store.products.rest.ProductGet;
+import de.tarent.challenge.store.products.rest.ProductPost;
+import de.tarent.challenge.store.products.rest.ProductPut;
+import de.tarent.challenge.store.products.rest.validation.ProductValidator;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-	private final ProductService productService;
+	private final ProductGet productGet;
+	private final ProductPost productPost;
+	private final ProductPut productPut;
+	private final ProductDelete productDelete;
+	private final ProductValidator productValidator;
 
 	public ProductController(ProductService productService) {
-		this.productService = productService;
+		productGet = new ProductGet(productService);
+		
+		productValidator = new ProductValidator(productGet);
+
+		productPost = new ProductPost(productService, productValidator);
+		productPut = new ProductPut(productService, productValidator);
+		productDelete = new ProductDelete(productService, productGet);
 	}
 
 	/**
@@ -39,7 +43,7 @@ public class ProductController {
 	 */
 	@GetMapping
 	public Iterable<Product> retrieveProducts() {
-		return productService.retrieveAllProducts();
+		return productGet.getAll();
 	}
 
 	/**
@@ -50,9 +54,7 @@ public class ProductController {
 	 */
 	@GetMapping("/{sku}")
 	public Product retrieveProductBySku(@PathVariable String sku) {
-
-		// Validate and throw Error if not there
-		return this.checkIfSkuIsInDB(sku);
+		return productGet.getBySku(sku);
 	}
 
 	/**
@@ -66,95 +68,12 @@ public class ProductController {
 	 */
 	@PostMapping()
 	public ResponseEntity<?> addProduct(@RequestBody Product input) {
-
-		validateSkuData(input);
-		validateNameData(input);
-		validateEanData(input);
-		validatePriceData(input);
-
-		Product result = this.productService.save(input);
-
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/products/{id}").buildAndExpand(result.getSku())
-				.toUri();
-
-		return ResponseEntity.created(location).build();
-
-	}
-
-	/**
-	 * #Task 2 Add validation for the new attribute: required, greater than 0
-	 * 
-	 * @param input
-	 */
-	private void validatePriceData(Product input) {
-		// Name: required, greater than 0
-		if (input.getPrice() < 0) {
-			throw new PriceLowerZeroException();
-		}
-
-	}
-
-	/**
-	 * EANs: At least one, non-empty item
-	 * 
-	 * @param input
-	 */
-	private void validateEanData(Product input) {
-		// Name: required, not empty
-		if (input.getEans() == null || input.getEans().size() < 1) {
-			throw new NoEansException();
-		}
-
-		// Name: not empty
-		for (String ean : input.getEans()) {
-			if (ean == null || ean.trim().length() == 0)
-				throw new EanIsEmptyException();
-		}
-	}
-
-	/**
-	 * Name: required, not empty
-	 * 
-	 * @param input
-	 */
-	private void validateNameData(Product input) {
-		// Name: required, not empty
-		if (input.getName() == null || input.getName().trim().length() == 0) {
-			throw new InvalidProductNameException();
-		}
-	}
-
-	/**
-	 * SKU: required, not empty, unique
-	 */
-	private void validateSkuData(Product input) {
-		// SKU: required, not empty
-		if (input.getSku() == null || input.getSku().trim().length() == 0) {
-			throw new InvalidSkuException();
-		}
-
-		// SKU: unique
-		try {
-			if (this.checkIfSkuIsInDB(input.getSku()) != null) {
-				throw new ProductAllreadyInUseException(input.getSku());
-			}
-		} catch (SkuNotFoundException snfe) {
-			// Do nothing, since this exception is wanted in this case
-		}
+		return productPost.addProduct(input);
 	}
 
 	@PutMapping("/{sku}")
 	public Product changeProduct(@PathVariable String sku, @RequestBody Product input) {
-
-		// Validate and throw Error if not there
-		this.checkIfSkuIsInDB(sku);
-
-		try {
-			return this.productService.change(input);
-		} catch (Exception e) {
-			throw new ErrorWhileChangingException(sku);
-		}
-
+		return productPut.changeProduct(sku, input);
 	}
 
 	/**
@@ -162,34 +81,7 @@ public class ProductController {
 	 */
 	@DeleteMapping("/{sku}")
 	public void deleteBySKU(@PathVariable String sku) {
-
-		// Validate and throw Error if not there
-		Product product = this.checkIfSkuIsInDB(sku);
-
-		try {
-			this.productService.delete(product);
-		} catch (IllegalArgumentException iae) {
-			throw new SkuNotFoundException(sku);
-		}
-
-	}
-
-	/**
-	 * Deleting all Products, JUST FOR TESTING
-	 */
-	@DeleteMapping("/all")
-	public void deleteAll() {
-		this.productService.deleteAll();
-
-	}
-
-	/**
-	 * Validation the SKU, needs to be before altering and deleting
-	 * 
-	 * @param sku
-	 */
-	private Product checkIfSkuIsInDB(String sku) {
-		return this.productService.retrieveProductBySku(sku).orElseThrow(() -> new SkuNotFoundException(sku));
+		productDelete.deleteBySKU(sku);
 	}
 
 }
