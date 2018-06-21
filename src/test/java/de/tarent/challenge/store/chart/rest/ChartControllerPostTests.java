@@ -17,7 +17,7 @@ import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.exeptions.ProductIsNotAvailableForAddingException;
-import de.tarent.challenge.exeptions.QuantityBelowZeroException;
+import de.tarent.challenge.exeptions.chart.quantity.ChartitemQuantityBelowZeroException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
@@ -117,10 +117,10 @@ public class ChartControllerPostTests extends ChartControllerTests {
 
 		ResultActions resultActions = this.mockMvc
 				.perform(post("/charts").contentType(contentType).content(json(chart)))
-				.andExpect(status().is(QuantityBelowZeroException.STATUS.value()));
+				.andExpect(status().is(ChartitemQuantityBelowZeroException.STATUS.value()));
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
-		if (!QuantityBelowZeroException.MESSAGE.equals(errorMsg)) {
+		if (!ChartitemQuantityBelowZeroException.MESSAGE.equals(errorMsg)) {
 			throw new Exception(errorMsg);
 		}
 	}

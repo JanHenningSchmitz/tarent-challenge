@@ -1,6 +1,6 @@
 package de.tarent.challenge.store.products.rest;
 
-import de.tarent.challenge.exeptions.ErrorWhileChangingException;
+import de.tarent.challenge.exeptions.product.ErrorWhileChangingException;
 import de.tarent.challenge.exeptions.product.ean.CantDeleteLastEan;
 import de.tarent.challenge.exeptions.product.ean.EanAllreadyOnProductException;
 import de.tarent.challenge.exeptions.product.ean.EanNotOnProductException;

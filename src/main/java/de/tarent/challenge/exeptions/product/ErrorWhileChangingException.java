@@ -1,8 +1,9 @@
-package de.tarent.challenge.exeptions;
+package de.tarent.challenge.exeptions.product;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+//TODO Check again
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ErrorWhileChangingException extends RuntimeException {
 
