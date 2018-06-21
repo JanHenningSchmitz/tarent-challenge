@@ -30,7 +30,7 @@ public class ProductControllerTests extends StoreApplicationTests {
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
 		// Delete everything thats there to set up a new Test DB
-			mockMvc.perform(delete("/products/all"));
+		mockMvc.perform(delete("/products/all"));
 
 
 		// Specify the first for later testing
