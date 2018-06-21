@@ -13,11 +13,6 @@ import com.google.common.collect.Sets;
 @Entity
 public class Product {
 
-	// @Id
-	// @GeneratedValue(strategy = AUTO)
-	// @JsonIgnore
-	// private Long id;
-
 	@Id
 	private String sku;
 
@@ -78,20 +73,18 @@ public class Product {
 			return false;
 		Product product = (Product) o;
 		return
-		// Objects.equals(id, product.id) &&
 		Objects.equals(sku, product.sku) && Objects.equals(name, product.name) && Objects.equals(eans, product.eans)
 				&& Objects.equals(price, product.price);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(/* id, */sku, name, eans, price);
+		return Objects.hash(sku, name, eans, price);
 	}
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				// .add("id", id)
 				.add("sku", sku).add("name", name).add("eans", eans).add("price", price).toString();
 	}
 }
