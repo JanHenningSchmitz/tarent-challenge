@@ -1,6 +1,7 @@
 package de.tarent.challenge.store.chart;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tarent.challenge.store.chart.item.Chartitem;
+import de.tarent.challenge.store.chart.rest.ChartDelete;
 import de.tarent.challenge.store.chart.rest.ChartGet;
 import de.tarent.challenge.store.chart.rest.ChartPost;
 import de.tarent.challenge.store.chart.rest.ChartPut;
@@ -23,6 +25,7 @@ public class ChartController {
 	private final ChartGet chartGet;
 	private final ChartPost chartPost;
 	private final ChartPut chartPut;
+	private final ChartDelete chartDelete;
 	private final ChartValidator chartValidator;
 	private final ChartitemValidator chartitemValidator;
 
@@ -31,12 +34,13 @@ public class ChartController {
 		// INFO At this point, no need for validation, so this can be on top.
 		// Maybe there have to be some changes later
 		this.chartGet = new ChartGet(chartService);
-		
+
 		chartitemValidator = new ChartitemValidator(productService);
 		chartValidator = new ChartValidator(chartGet, chartitemValidator);
-		
+
 		this.chartPut = new ChartPut(chartService, chartValidator, chartitemValidator);
 		this.chartPost = new ChartPost(chartService, chartValidator);
+		this.chartDelete = new ChartDelete(chartService);
 	}
 
 	/**
@@ -71,39 +75,51 @@ public class ChartController {
 		return chartPost.createNewChart(chart);
 
 	}
-	
+
 	/**
 	 * Add an Item to a Chart
+	 * 
 	 * @param name
 	 * @param item
 	 * @return
 	 */
-	 @RequestMapping(value = "/{name}/checkout", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{name}/checkout", method = RequestMethod.PUT)
 	public Chart checkOutChart(@PathVariable String name) {
 		return chartPut.checkOutChart(name);
 	}
 
 	/**
 	 * Add an Item to a Chart
+	 * 
 	 * @param name
 	 * @param item
 	 * @return
 	 */
-	 @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{name}", method = RequestMethod.PUT)
 	public Chart addItem(@PathVariable String name, @RequestBody Chartitem item) {
 		return chartPut.addItem(name, item);
 	}
-	 
+
 	/**
 	 * Delete an Item from the Chart
+	 * 
 	 * @param name
 	 * @param item
 	 * @return
 	 */
-	 @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
 	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
 
 		return chartPut.deleteItem(name, item);
+
+	}
+
+	/**
+	 * Deleting all Charts, JUST FOR TESTING
+	 */
+	@DeleteMapping("/all")
+	public void deleteAll() {
+		chartDelete.deleteAll();
 
 	}
 

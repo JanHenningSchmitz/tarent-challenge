@@ -25,20 +25,21 @@ public class ProductService {
 	public Product save(Product product) {
 		return productCatalog.saveAndFlush(product);
 	}
-	
+
+	public Product change(Product product) {
+		return productCatalog.saveAndFlush(product);
+	}
+
 	public void delete(Product product) {
 		productCatalog.delete(product);
-	}	
-	
+		productCatalog.flush();
+	}
+
 	/**
-	 * JUST FOR TESTING!
-	 * TODO: Anyway to keep this out of the Production Build?
+	 * JUST FOR TESTING! TODO: Anyway to keep this out of the Production Build?
 	 */
 	public void deleteAll() {
 		productCatalog.deleteAll();
-	}
-	
-	public Product change(Product product) {
-		return productCatalog.saveAndFlush(product);
+		productCatalog.flush();
 	}
 }

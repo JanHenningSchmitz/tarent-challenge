@@ -24,7 +24,6 @@ public class ProductControllerGetTests extends ProductControllerTests {
 	@Test
 	public void retrieveProductBySku() throws Exception {
 
-		// First the Header
 		ResultActions resultActions = mockMvc.perform(get("/products/" + TEST_PRODUCTS[0].getSku()));
 
 		resultActions.andExpect(status().isOk()).andExpect(content().contentType(contentType));

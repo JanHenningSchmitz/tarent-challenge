@@ -2,8 +2,8 @@ package de.tarent.challenge.store.chart;
 
 import static javax.persistence.GenerationType.AUTO;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,20 +28,18 @@ public class Chart {
 	@NotNull
 	private String name;
 
-	@OneToMany(	mappedBy = "chart", 
-				cascade = CascadeType.REMOVE,
-				orphanRemoval = true)
-	private List<Chartitem> chartitems;
+	@OneToMany(mappedBy = "chart", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private Set<Chartitem> chartitems;
 
 	private double totalprice;
-	
+
 	private boolean checkedout;
 
 	@SuppressWarnings("unused") // For JPA
 	private Chart() {
 	}
 
-	public Chart(String name, List<Chartitem> chartitems, double totalprice) {
+	public Chart(String name, Set<Chartitem> chartitems, double totalprice) {
 		this.name = name;
 		this.chartitems = chartitems;
 		this.totalprice = totalprice;
@@ -51,19 +49,19 @@ public class Chart {
 	public boolean isCheckedout() {
 		return checkedout;
 	}
-	
+
 	/**
 	 * once checked out, it can never return
 	 */
 	public void setCheckedout() {
 		this.checkedout = true;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
 
-	public List<Chartitem> getChartitems() {
+	public Set<Chartitem> getChartitems() {
 		return chartitems;
 	}
 

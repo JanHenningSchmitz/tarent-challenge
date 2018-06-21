@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -21,6 +20,7 @@ import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.products.Product;
 
 public class StoreApplicationTests {
@@ -51,14 +51,15 @@ public class StoreApplicationTests {
 	protected static final int SIZE_TEST_PRODUCT_ARRAY = 5;
 	protected static final Product[] TEST_PRODUCTS = new Product[SIZE_TEST_PRODUCT_ARRAY];
 	protected static final String ID_PRODUCT_NOT_FOUND = "666";
+	protected static final int SIZE_TEST_CHART_ARRAY = 2;
+	protected static Chart[] TESTCHARTS = new Chart[SIZE_TEST_CHART_ARRAY];
 
 	/**
 	 * This Method is invoked before EVERY Test run!,
 	 * 
 	 * @throws Exception
 	 */
-	@Before
-	public void setup() throws Exception {
+	public void setupProducts() throws Exception {
 
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
 
