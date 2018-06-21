@@ -29,6 +29,11 @@ public class ChartService {
 		return chartCatalog.saveAndFlush(chart);
 	}
 
+	public Chart checkout(Chart chart) {
+		return chartCatalog.saveAndFlush(chart);
+	}
+
+
 	public void deleteChart(Chart chart) {
 		chartCatalog.delete(chart);
 		chartCatalog.flush();

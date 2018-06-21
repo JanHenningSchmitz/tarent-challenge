@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.AUTO;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,17 +24,18 @@ public class Chart {
 	@GeneratedValue(strategy = AUTO)
 	private Long id;
 
-	// TODO: Add Validation to create chart
 	@Column(unique = true)
 	@NotNull
 	private String name;
 
-	@OneToMany(mappedBy = "chart")
+	@OneToMany(	mappedBy = "chart", 
+				cascade = CascadeType.REMOVE,
+				orphanRemoval = true)
 	private List<Chartitem> chartitems;
 
 	private double totalprice;
 	
-	private boolean checkedOut;
+	private boolean checkedout;
 
 	@SuppressWarnings("unused") // For JPA
 	private Chart() {
@@ -43,18 +45,18 @@ public class Chart {
 		this.name = name;
 		this.chartitems = chartitems;
 		this.totalprice = totalprice;
-		this.checkedOut = false;
+		this.checkedout = false;
 	}
 
-	public boolean isCheckedOut() {
-		return checkedOut;
+	public boolean isCheckedout() {
+		return checkedout;
 	}
 	
 	/**
 	 * once checked out, it can never return
 	 */
-	public void setCheckedOut() {
-		this.checkedOut = true;
+	public void setCheckedout() {
+		this.checkedout = true;
 	}
 	
 	public String getName() {

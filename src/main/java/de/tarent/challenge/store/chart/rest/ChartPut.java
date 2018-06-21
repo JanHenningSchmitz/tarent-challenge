@@ -1,5 +1,6 @@
 package de.tarent.challenge.store.chart.rest;
 
+import de.tarent.challenge.exeptions.CouldNotCheckOutChartException;
 import de.tarent.challenge.exeptions.ErrorWhileAddingItem;
 import de.tarent.challenge.exeptions.ErrorWhileDeletingChart;
 import de.tarent.challenge.exeptions.ItemNotInChartException;
@@ -7,19 +8,20 @@ import de.tarent.challenge.exeptions.NotEnoughItemsInChartEcxeption;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 import de.tarent.challenge.store.chart.item.Chartitem;
+import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
 import de.tarent.challenge.store.chart.rest.validation.ChartitemValidator;
 import de.tarent.challenge.store.products.Product;
 
 public class ChartPut {
 
+	private final ChartValidator chartValidator;
 	private final ChartitemValidator chartitemValidator;
 	private final ChartService chartService;
-	private final ChartGet chartGet;
 
-	public ChartPut(ChartService chartService, ChartGet chartGet, ChartitemValidator chartitemValidator) {
+	public ChartPut(ChartService chartService, ChartValidator chartValidator, ChartitemValidator chartitemValidator) {
 		this.chartService = chartService;
-		this.chartGet = chartGet;
 		this.chartitemValidator = chartitemValidator;
+		this.chartValidator = chartValidator;
 	}
 
 	/**
@@ -27,8 +29,10 @@ public class ChartPut {
 	 */
 	public Chart addItem(String name, Chartitem chartitem) {
 
-		// Validate and throw Error if not there
-		Chart chart = chartGet.retrieveChartByName(name);
+		// Validate Chart and throw Error if not there
+		Chart chart = chartValidator.validateChartForAltering(name);
+
+		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
 
 		boolean found = false;
@@ -65,8 +69,10 @@ public class ChartPut {
 	 */
 	public Chart deleteItem(String name, Chartitem chartitem) {
 
-		// Validate and throw Error if not there
-		Chart chart = chartGet.retrieveChartByName(name);
+		// Validate Chart and throw Error if not there
+		Chart chart = chartValidator.validateChartForAltering(name);
+
+		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
 
 		Chartitem forRemove = null;
@@ -124,6 +130,28 @@ public class ChartPut {
 
 		}
 
+	}
+	
+	/**
+	 * Checking out the chart and closing for further altering
+	 * @param name
+	 */
+	public Chart checkOutChart(String name) {
+
+		// Validate Chart and throw Error if not there
+		Chart chart = chartValidator.validateChartForAltering(name);
+
+		// Set the flag
+		chart.setCheckedout();
+		
+		// Change the DB
+		try {
+			return this.chartService.checkout(chart);
+		} catch (Exception e) {
+			System.out.println(e);
+			throw new CouldNotCheckOutChartException(name);
+		}
+		
 	}
 
 }

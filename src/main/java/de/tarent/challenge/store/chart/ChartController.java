@@ -27,12 +27,15 @@ public class ChartController {
 	private final ChartitemValidator chartitemValidator;
 
 	public ChartController(ChartService chartService, ProductService productService) {
+
+		// INFO At this point, no need for validation, so this can be on top.
+		// Maybe there have to be some changes later
+		this.chartGet = new ChartGet(chartService);
 		
 		chartitemValidator = new ChartitemValidator(productService);
-		chartValidator = new ChartValidator(chartitemValidator);
+		chartValidator = new ChartValidator(chartGet, chartitemValidator);
 		
-		this.chartGet = new ChartGet(chartService);
-		this.chartPut = new ChartPut(chartService, chartGet, chartitemValidator);
+		this.chartPut = new ChartPut(chartService, chartValidator, chartitemValidator);
 		this.chartPost = new ChartPost(chartService, chartValidator);
 	}
 
@@ -66,6 +69,19 @@ public class ChartController {
 	@PostMapping
 	public ResponseEntity<?> createNewChart(@RequestBody Chart chart) {
 		return chartPost.createNewChart(chart);
+
+	}
+	
+	/**
+	 * Add an Item to a Chart
+	 * @param name
+	 * @param item
+	 * @return
+	 */
+	 @RequestMapping(value = "/{name}/checkout", method = RequestMethod.PUT)
+	public Chart checkOutChart(@PathVariable String name) {
+
+		return chartPut.checkOutChart(name);
 
 	}
 

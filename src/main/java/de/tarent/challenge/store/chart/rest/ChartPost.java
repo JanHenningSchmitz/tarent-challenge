@@ -27,7 +27,7 @@ public class ChartPost {
 	 */
 	public ResponseEntity<?> createNewChart(Chart chart) {
 
-		chartValidator.validateChart(chart);
+		chartValidator.validateNewChart(chart);
 
 		Chart result = this.chartService.createNewChart(chart);
 
