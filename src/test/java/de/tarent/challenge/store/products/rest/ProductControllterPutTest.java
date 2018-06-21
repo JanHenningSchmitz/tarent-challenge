@@ -13,6 +13,7 @@ import de.tarent.challenge.exeptions.EanIsEmptyException;
 import de.tarent.challenge.exeptions.InvalidProductNameException;
 import de.tarent.challenge.exeptions.NoEansException;
 import de.tarent.challenge.exeptions.PriceLowerZeroException;
+import de.tarent.challenge.exeptions.WrongProductForAlteringException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductControllerTests;
 
@@ -22,7 +23,19 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 	@Test
 	public void changeWithWrongSku() throws Exception {
-		// TODO
+		Product product = TEST_PRODUCTS[0];
+		product.setPrice(TEST_PRODUCTS[0].getPrice() * 2);
+
+		String json = json(product);
+
+		ResultActions resultActions = this.mockMvc
+				.perform(put("/products/" + TEST_PRODUCTS[1].getSku()).contentType(contentType).content(json))
+				.andExpect(status().is(WrongProductForAlteringException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!WrongProductForAlteringException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
 
 	}
 
