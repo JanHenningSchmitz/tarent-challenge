@@ -80,9 +80,7 @@ public class ChartController {
 	 */
 	 @RequestMapping(value = "/{name}/checkout", method = RequestMethod.PUT)
 	public Chart checkOutChart(@PathVariable String name) {
-
 		return chartPut.checkOutChart(name);
-
 	}
 
 	/**
@@ -93,9 +91,7 @@ public class ChartController {
 	 */
 	 @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
 	public Chart addItem(@PathVariable String name, @RequestBody Chartitem item) {
-
 		return chartPut.addItem(name, item);
-
 	}
 	 
 	/**

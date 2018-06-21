@@ -71,7 +71,7 @@ public class Product {
 	}
 
 	public Set<String> getEans() {
-		return Sets.newHashSet(eans);
+		return eans;
 	}
 
 	public double getPrice() {

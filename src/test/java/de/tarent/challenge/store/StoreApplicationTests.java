@@ -1,10 +1,18 @@
 package de.tarent.challenge.store;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -12,6 +20,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+
+import de.tarent.challenge.store.products.Product;
 
 public class StoreApplicationTests {
 
@@ -38,57 +48,52 @@ public class StoreApplicationTests {
 		Assert.assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
 	}
 
-	// @Test
-	// public void createNewChartAndAddItems() throws Exception {
-	//
-	// double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
-	// List<Chartitem> chartItems = new ArrayList<Chartitem>();
-	// chartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 2));
-	//
-	// String testUserName = "TestUser";
-	// Chart testChart = new Chart(testUserName, chartItems, expectetPrice);
-	//
-	// this.mockMvc.perform(post("/charts").contentType(contentType).content(json(testChart)))
-	// .andExpect(status().isCreated());
-	//
-	// this.mockMvc.perform(get("/charts/" +
-	// testChart.getName())).andExpect(status().isOk())
-	// .andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name",
-	// is(testChart.getName())))
-	// .andExpect(jsonPath("$.totalprice", is(expectetPrice)));
-	// // TODO Numbers of Elements should also be checked
-	// // .andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
-	//
-	// expectetPrice += 2 * TEST_PRODUCTS[1].getPrice();
-	// addItemsToChart(TEST_PRODUCTS[1], testChart, 2);
-	// readChart(testChart.getName(), expectetPrice);
-	//
-	// expectetPrice += TEST_PRODUCTS[2].getPrice() * 5;
-	// addItemsToChart(TEST_PRODUCTS[2], testChart, 5);
-	// readChart(testChart.getName(), expectetPrice);
-	// }
-	//
-	// private void readChart(String name, double expectetPrice) throws Exception {
-	// this.mockMvc.perform(get("/charts/" + name)).andExpect(status().isOk())
-	// .andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name",
-	// is(name)))
-	// .andExpect(jsonPath("$.totalprice", is(expectetPrice)));
-	// // TODO Numbers of Elements should also be checked
-	// // .andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new
-	// // String[0]))));
-	// }
-	//
-	// private void addItemsToChart(Product product, Chart chart, int quantity)
-	// throws Exception {
-	//
-	// Chartitem item = new Chartitem(product.getSku(), quantity);
-	// String json = json(item);
-	//
-	// this.mockMvc.perform(put("/charts/" +
-	// chart.getName()).contentType(contentType).content(json))
-	// .andExpect(status().isOk());
-	// }
-	//
+	protected static final int SIZE_TEST_PRODUCT_ARRAY = 5;
+	protected static final Product[] TEST_PRODUCTS = new Product[SIZE_TEST_PRODUCT_ARRAY];
+	protected static final String ID_PRODUCT_NOT_FOUND = "666";
+
+	/**
+	 * This Method is invoked before EVERY Test run!,
+	 * 
+	 * @throws Exception
+	 */
+	@Before
+	public void setup() throws Exception {
+
+		this.mockMvc = webAppContextSetup(webApplicationContext).build();
+
+		// Delete everything thats there to set up a new Test DB
+		mockMvc.perform(delete("/products/all"));
+
+		// Specify the first for later testing
+		Set<String> tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("00000000", "00000001"));
+		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, true, tmp_EANS));
+
+		tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("11111111"));
+		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0, true, tmp_EANS));
+
+		tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("22222222"));
+		TEST_PRODUCTS[2] = (new Product("test2", "test2", 2.7, true, tmp_EANS));
+
+		tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("33333333"));
+		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11, true, tmp_EANS));
+
+		tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("44444444"));
+		TEST_PRODUCTS[4] = (new Product("test4", "test4", 47.11, false, tmp_EANS));
+
+		// Inserting the given test data
+		for (int i = 0; i < TEST_PRODUCTS.length; i++) {
+
+			this.mockMvc.perform(post("/products").contentType(contentType).content(json(TEST_PRODUCTS[i])))
+					.andExpect(status().isCreated());
+		}
+
+	}
 
 	/**
 	 * Unchecked, since its only for test purpose

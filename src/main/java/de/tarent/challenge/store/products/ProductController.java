@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tarent.challenge.store.products.rest.ProductDelete;
@@ -28,7 +28,7 @@ public class ProductController {
 
 	public ProductController(ProductService productService) {
 		productGet = new ProductGet(productService);
-		
+
 		productValidator = new ProductValidator(productGet);
 
 		productPost = new ProductPost(productService, productValidator);
@@ -71,7 +71,7 @@ public class ProductController {
 		return productPost.addProduct(input);
 	}
 
-	@PutMapping("/{sku}")
+	@RequestMapping(value = "/{sku}", method = RequestMethod.PUT)
 	public Product changeProduct(@PathVariable String sku, @RequestBody Product input) {
 		return productPut.changeProduct(sku, input);
 	}

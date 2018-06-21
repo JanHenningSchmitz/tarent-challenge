@@ -30,7 +30,7 @@ public class ProductPost {
 	 */
 	public ResponseEntity<?> addProduct(Product input) {
 
-		productValidator.validateSkuData(input);
+		productValidator.validateSkuData(input, true);
 		productValidator.validateNameData(input);
 		productValidator.validateEanData(input);
 		productValidator.validatePriceData(input);

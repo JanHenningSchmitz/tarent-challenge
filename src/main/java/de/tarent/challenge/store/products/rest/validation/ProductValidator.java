@@ -64,19 +64,25 @@ public class ProductValidator {
 	/**
 	 * SKU: required, not empty, unique
 	 */
-	public void validateSkuData(Product input) {
+	public void validateSkuData(Product input, boolean newProduct) {
 		// SKU: required, not empty
 		if (input.getSku() == null || input.getSku().trim().length() == 0) {
 			throw new InvalidSkuException();
 		}
 
-		// SKU: unique
-		try {
-			if (productGet.getBySku(input.getSku()) != null) {
-				throw new ProductAllreadyInUseException(input.getSku());
+		if(newProduct) {
+			
+			// SKU: unique
+			try {
+				if (productGet.getBySku(input.getSku()) != null) {
+					throw new ProductAllreadyInUseException(input.getSku());
+				}
+			} catch (SkuNotFoundException snfe) {
+				// Do nothing, since this exception is wanted in this case
 			}
-		} catch (SkuNotFoundException snfe) {
-			// Do nothing, since this exception is wanted in this case
+		}else {
+			// Throws a Exception if not there
+			productGet.getBySku(input.getSku());
 		}
 	}
 }
