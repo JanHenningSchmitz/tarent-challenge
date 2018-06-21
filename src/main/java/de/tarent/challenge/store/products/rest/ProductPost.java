@@ -43,4 +43,5 @@ public class ProductPost {
 		return ResponseEntity.created(location).build();
 
 	}
+
 }

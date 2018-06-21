@@ -35,6 +35,9 @@ public class ChartPut {
 		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
 
+		// Check if Item is available
+		chartitemValidator.productAvailableForAdding(product);
+
 		boolean found = false;
 		// should be not null at this point
 		for (Chartitem itemFromChart : chart.getChartitems()) {
@@ -131,9 +134,10 @@ public class ChartPut {
 		}
 
 	}
-	
+
 	/**
 	 * Checking out the chart and closing for further altering
+	 * 
 	 * @param name
 	 */
 	public Chart checkOutChart(String name) {
@@ -141,9 +145,15 @@ public class ChartPut {
 		// Validate Chart and throw Error if not there
 		Chart chart = chartValidator.validateChartForAltering(name);
 
+		// for all items, check if they are there
+		for (Chartitem chartitem : chart.getChartitems()) {
+			// Check if Item is available
+			chartitemValidator.productAvailableForCheckout(chartitem);
+		}
+
 		// Set the flag
 		chart.setCheckedout();
-		
+
 		// Change the DB
 		try {
 			return this.chartService.checkout(chart);
@@ -151,7 +161,7 @@ public class ChartPut {
 			System.out.println(e);
 			throw new CouldNotCheckOutChartException(name);
 		}
-		
+
 	}
 
 }

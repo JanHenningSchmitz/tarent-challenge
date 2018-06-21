@@ -7,6 +7,7 @@ import de.tarent.challenge.exeptions.ChartNameInvalidException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;
+import de.tarent.challenge.store.products.Product;
 
 public class ChartValidator {
 
@@ -51,7 +52,9 @@ public class ChartValidator {
 
 		// Validate Items
 		for (Chartitem chartitem : chart.getChartitems()) {
-			chartitemValidator.validateChartitem(chartitem);
+			Product product = chartitemValidator.validateChartitem(chartitem);
+			// Check if available
+			chartitemValidator.productAvailableForAdding(product);
 		}
 	}
 }
