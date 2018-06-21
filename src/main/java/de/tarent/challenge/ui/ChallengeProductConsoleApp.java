@@ -133,7 +133,6 @@ public class ChallengeProductConsoleApp {
 				System.out.println("      " + output);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -147,7 +146,6 @@ public class ChallengeProductConsoleApp {
 				return false;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;
@@ -168,7 +166,6 @@ public class ChallengeProductConsoleApp {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

@@ -65,7 +65,6 @@ public class ChallengeChartConsoleApp {
 				return false;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;
@@ -82,7 +81,6 @@ public class ChallengeChartConsoleApp {
 				System.out.println("      " + output);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
