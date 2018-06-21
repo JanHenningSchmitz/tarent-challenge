@@ -53,9 +53,9 @@ public class StoreApplicationTests {
 	protected Chart testchart = null;
 
 	public void setup(String testproductname) throws Exception {
-		
+
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
-		
+
 		// Delete everything thats there to set up a new Test DB
 		this.mockMvc.perform(delete("/products/all"));
 		this.mockMvc.perform(delete("/charts/all"));
@@ -65,11 +65,11 @@ public class StoreApplicationTests {
 		testproduct = new Product(testproductname, testproductname, 2.1, true, test_product_eans);
 		createTestProduct(testproduct);
 
-		 Set<String> tmp_ChartItems = new HashSet<String>();
-		 tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 1));
-		
-		 testchart = new Chart("newtestchart", tmp_ChartItems, (this.testproduct.getPrice()));
-		 createTestChart(testchart);
+		Set<String> tmp_ChartItems = new HashSet<String>();
+		tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 1));
+
+		testchart = new Chart("testchart", tmp_ChartItems, (this.testproduct.getPrice()));
+		createTestChart(testchart);
 	}
 
 	protected void createTestProduct(Product product) throws IOException, Exception {
