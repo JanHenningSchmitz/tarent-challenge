@@ -39,7 +39,7 @@ public class ProductControllerGetTests extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!SkuNotFoundException.MESSAGE.equals(errorMsg)) {
-			throw new SkuNotFoundException(ID_PRODUCT_NOT_FOUND);
+			throw new Exception(errorMsg);
 		}
 
 	}

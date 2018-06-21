@@ -54,7 +54,7 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!PriceLowerZeroException.MESSAGE.equals(errorMsg)) {
-			throw new PriceLowerZeroException();
+			throw new Exception(errorMsg);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!InvalidProductNameException.MESSAGE.equals(errorMsg)) {
-			throw new InvalidProductNameException();
+			throw new Exception(errorMsg);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!InvalidProductNameException.MESSAGE.equals(errorMsg)) {
-			throw new InvalidProductNameException();
+			throw new Exception(errorMsg);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!EanIsEmptyException.MESSAGE.equals(errorMsg)) {
-			throw new EanIsEmptyException();
+			throw new Exception(errorMsg);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class ProductControllterPutTest extends ProductControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!NoEansException.MESSAGE.equals(errorMsg)) {
-			throw new NoEansException();
+			throw new Exception(errorMsg);
 		}
 	}
 

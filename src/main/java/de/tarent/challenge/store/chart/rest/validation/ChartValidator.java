@@ -4,6 +4,7 @@ import de.tarent.challenge.exeptions.ChartIsCheckedOutException;
 import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.ChartIsNullException;
 import de.tarent.challenge.exeptions.ChartNameInvalidException;
+import de.tarent.challenge.exeptions.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;
@@ -50,11 +51,19 @@ public class ChartValidator {
 			throw new ChartIsEmptyOnCreateException(chart);
 		}
 
+		double expectedTotalPrice = 0;
+
 		// Validate Items
 		for (Chartitem chartitem : chart.getChartitems()) {
 			Product product = chartitemValidator.validateChartitem(chartitem);
 			// Check if available
 			chartitemValidator.productAvailableForAdding(product);
+			expectedTotalPrice += product.getPrice() * chartitem.getQuantity();
+		}
+
+		// Is the totalprice correct?
+		if (chart.getTotalprice() != expectedTotalPrice) {
+			throw new ChartWithWrongTotalPriceException(chart, expectedTotalPrice);
 		}
 	}
 }

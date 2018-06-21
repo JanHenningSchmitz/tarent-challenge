@@ -29,40 +29,39 @@ public class ChartitemValidator {
 			throw new ChartItemIsNullException();
 		}
 		// Validate the quantity
-		quantityValidation(chartItem.getQuantity());
-		
+		quantityValidation(chartItem.getSku(), chartItem.getQuantity());
+
 		// Validate the Product
 		return getProduct(chartItem.getSku());
 	}
 
-	private void quantityValidation(int quantity) {
+	private void quantityValidation(String sku, int quantity) {
 		if (quantity <= 0) {
-			throw new QuantityBelowZeroException(quantity);
+			throw new QuantityBelowZeroException(sku, quantity);
 		}
 	}
 
 	private Product getProduct(String sku) {
 		return this.productService.retrieveProductBySku(sku).orElseThrow(() -> new SkuNotFoundException(sku));
 	}
-	
-	
+
 	/**
 	 * Check if Product is available
 	 */
 	public void productAvailableForAdding(Product product) {
-		if(!product.isAvailable()) {
+		if (!product.isAvailable()) {
 			throw new ProductIsNotAvailableForAddingException(product);
 		}
 	}
-	
+
 	/**
 	 * Check if Product is available
 	 */
 	public void productAvailableForCheckout(Chartitem chartitem) {
-		
+
 		Product product = getProduct(chartitem.getSku());
-		
-		if(!product.isAvailable()) {
+
+		if (!product.isAvailable()) {
 			throw new ProductIsNotAvailableForAddingException(product);
 		}
 	}

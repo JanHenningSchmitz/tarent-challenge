@@ -41,7 +41,7 @@ public class ChartControllerGetTests extends ChartControllerTests {
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!ChartNotFoundException.MESSAGE.equals(errorMsg)) {
-			throw new ChartNotFoundException(ID_PRODUCT_NOT_FOUND);
+			throw new Exception(errorMsg);
 		}
 	}
 
