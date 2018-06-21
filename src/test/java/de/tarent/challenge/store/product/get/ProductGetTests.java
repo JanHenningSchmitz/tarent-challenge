@@ -28,23 +28,18 @@ import de.tarent.challenge.store.products.ProductControllerTests;
 @SpringBootTest
 public class ProductGetTests extends ProductControllerTests {
 
-	private Product testproduct = null;
-	private Product testproduct2 = null;
+	protected Product testproduct2 = null;
 
 	@Before
 	public void setup() throws IOException, Exception {
-		
-		super.setup();
-		
-		// Creating testdata
-		Set<String> test_product_eans = new HashSet<String>();
-		test_product_eans.addAll(Arrays.asList("00000000", "00000001"));
-		testproduct = new Product("ProductGetTests", "ProductGetTests", 2.1, true, test_product_eans);
-		createTestProduct(testproduct);
 
+		super.setup(this.getClass().getSimpleName());
+
+		// Creating testdata
 		Set<String> test_product2_eans = new HashSet<String>();
 		test_product2_eans.addAll(Arrays.asList("00000000", "00000001"));
-		testproduct2 = new Product("ProductGetTests2", "ProductGetTests2", 2.1, true, test_product2_eans);
+		testproduct2 = new Product(this.getClass().getSimpleName() + 2, this.getClass().getSimpleName() + 2, 2.1, true,
+				test_product2_eans);
 		createTestProduct(testproduct2);
 	}
 
@@ -61,7 +56,6 @@ public class ProductGetTests extends ProductControllerTests {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-
 
 	}
 

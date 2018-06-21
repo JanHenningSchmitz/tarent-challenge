@@ -28,19 +28,10 @@ import de.tarent.challenge.store.products.ProductControllerTests;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductAddTest extends ProductControllerTests {
-
-	private Product testproduct = null;
 	
 	@Before
 	public void setup() throws IOException, Exception {
-
-		super.setup();
-
-		// Creating testdata
-		Set<String> test_product_eans = new HashSet<String>();
-		test_product_eans.addAll(Arrays.asList("00000000", "00000001"));
-		testproduct = new Product("ProductAddTest", "ProductAddTest", 2.1, true, test_product_eans);
-		createTestProduct(testproduct);
+		super.setup(this.getClass().getSimpleName());
 	}
 	
 	/**

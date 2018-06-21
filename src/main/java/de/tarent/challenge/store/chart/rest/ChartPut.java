@@ -27,10 +27,13 @@ public class ChartPut {
 	/**
 	 * Adding a Item in a Quantity to the Chart and altering the total price
 	 */
-	public Chart addItem(String name, Chartitem chartitem) {
+	public Chart addItem(String name, String chartitem) {
 
 		// Validate Chart and throw Error if not there
 		Chart chart = chartValidator.validateChartForAltering(name);
+
+		String sku = Chartitem.getSku(chartitem);
+		int quantity = Chartitem.getQuantity(chartitem);
 
 		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
@@ -40,9 +43,10 @@ public class ChartPut {
 
 		boolean found = false;
 		// should be not null at this point
-		for (Chartitem itemFromChart : chart.getChartitems()) {
-			if (itemFromChart.getSku().equals(chartitem.getSku())) {
-				chartitem.addQuantity(chartitem.getQuantity());
+		for (String itemFromChart : chart.getItems()) {
+			if (Chartitem.getSku(itemFromChart).equals(sku)) {
+
+				chartitem = Chartitem.addQuantity(itemFromChart, quantity);
 				found = true;
 				break;
 			}
@@ -50,17 +54,17 @@ public class ChartPut {
 
 		// If not found, add a new Item to the Chart
 		if (!found) {
-			chart.getChartitems().add(new Chartitem(chartitem.getSku(), chartitem.getQuantity()));
+			chart.getItems().add(Chartitem.createChartitem(sku, quantity));
 		}
 
 		// Altering the total price
-		double totalprice = chart.getTotalprice() + (product.getPrice() * chartitem.getQuantity());
+		double totalprice = chart.getTotalprice() + (product.getPrice() * quantity);
 		chart.setTotalprice(totalprice);
 
 		try {
 			return this.chartService.changeItems(chart);
 		} catch (Exception e) {
-			throw new ErrorWhileAddingItem(name, product.getSku(), chartitem.getQuantity());
+			throw new ErrorWhileAddingItem(name, product.getSku(), quantity);
 		}
 
 	}
@@ -69,25 +73,28 @@ public class ChartPut {
 	 * Deleting a Item in a Quantity from the Chart and altering the total price
 	 * Returns Chart if OK, returns null if chart is deleted
 	 */
-	public Chart deleteItem(String name, Chartitem chartitem) {
+	public Chart deleteItem(String name, String chartitem) {
 
 		// Validate Chart and throw Error if not there
 		Chart chart = chartValidator.validateChartForAltering(name);
 
+		String sku = Chartitem.getSku(chartitem);
+		int quantity = Chartitem.getQuantity(chartitem);
+
 		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
 
-		Chartitem forRemove = null;
+		String forRemove = null;
 		// should be not null at this point
-		for (Chartitem itemFromChart : chart.getChartitems()) {
-			if (itemFromChart.getSku().equals(chartitem.getSku())) {
+		for (String itemFromChart : chart.getItems()) {
+			if (Chartitem.getSku(itemFromChart).equals(sku)) {
 
 				// Can't delete more than in chart
-				if (chartitem.getQuantity() > chartitem.getQuantity()) {
-					throw new NotEnoughItemsInChartEcxeption(name, chartitem.getQuantity());
+				if (quantity > Chartitem.getQuantity(itemFromChart)) {
+					throw new NotEnoughItemsInChartEcxeption(name, quantity);
 				}
 
-				chartitem.subQuantity(chartitem.getQuantity());
+				chartitem = Chartitem.subQuantity(itemFromChart, quantity);
 				forRemove = chartitem;
 				break;
 			}
@@ -95,20 +102,20 @@ public class ChartPut {
 
 		// Can't delete if it isn't in the chart
 		if (forRemove == null) {
-			throw new ItemNotInChartException(name, chartitem.getSku(), chartitem.getQuantity());
+			throw new ItemNotInChartException(name, sku, quantity);
 		}
 
 		// Alter the total price
-		double totalprice = chart.getTotalprice() + (product.getPrice() * chartitem.getQuantity());
+		double totalprice = chart.getTotalprice() + (product.getPrice() * quantity);
 		chart.setTotalprice(totalprice);
 
 		// Remove from Chart if there are non left
-		if (forRemove.getQuantity() <= 0) {
-			chart.getChartitems().remove(forRemove);
+		if (Chartitem.getQuantity(forRemove) <= 0) {
+			chart.getItems().remove(forRemove);
 		}
 
 		// Delete the Chart if there are no Items left
-		if (chart.getChartitems().size() <= 0) {
+		if (chart.getItems().size() <= 0) {
 
 			// Change the DB
 			try {
@@ -127,7 +134,7 @@ public class ChartPut {
 				return this.chartService.changeItems(chart);
 			} catch (Exception e) {
 				System.out.println(e);
-				throw new ErrorWhileAddingItem(name, product.getSku(), chartitem.getQuantity());
+				throw new ErrorWhileAddingItem(name, product.getSku(), quantity);
 			}
 
 		}
@@ -145,7 +152,7 @@ public class ChartPut {
 		Chart chart = chartValidator.validateChartForAltering(name);
 
 		// for all items, check if they are there
-		for (Chartitem chartitem : chart.getChartitems()) {
+		for (String chartitem : chart.getItems()) {
 			// Check if Item is available
 			chartitemValidator.productAvailableForCheckout(chartitem);
 		}

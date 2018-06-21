@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import de.tarent.challenge.store.chart.Chart;
+import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
 public class StoreApplicationTests {
@@ -48,52 +49,39 @@ public class StoreApplicationTests {
 		Assert.assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
 	}
 
-	protected static final int SIZE_TEST_PRODUCT_ARRAY = 5;
-	protected static final Product[] TEST_PRODUCTS = new Product[SIZE_TEST_PRODUCT_ARRAY];
-	protected static final String ID_PRODUCT_NOT_FOUND = "666";
-	protected static final int SIZE_TEST_CHART_ARRAY = 4;
-	protected static Chart[] TESTCHARTS = new Chart[SIZE_TEST_CHART_ARRAY];
+	protected Product testproduct = null;
+	protected Chart testchart = null;
 
-	/**
-	 * This Method is invoked before EVERY Test run!,
-	 * 
-	 * @throws Exception
-	 */
-	public void setupProducts() throws Exception {
-
+	public void setup(String testproductname) throws Exception {
+		
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
-
+		
 		// Delete everything thats there to set up a new Test DB
-		mockMvc.perform(delete("/products/all"));
+		this.mockMvc.perform(delete("/products/all"));
+		this.mockMvc.perform(delete("/charts/all"));
 
-		// Specify the first for later testing
-		Set<String> tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("00000000", "00000001"));
-		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, true, tmp_EANS));
+		Set<String> test_product_eans = new HashSet<String>();
+		test_product_eans.addAll(Arrays.asList("ean1", "ean2"));
+		testproduct = new Product(testproductname, testproductname, 2.1, true, test_product_eans);
+		createTestProduct(testproduct);
 
-		tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("11111111"));
-		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0, true, tmp_EANS));
+		 Set<String> tmp_ChartItems = new HashSet<String>();
+		 tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 1));
+		
+		 testchart = new Chart("newtestchart", tmp_ChartItems, (this.testproduct.getPrice()));
+		 createTestChart(testchart);
+	}
 
-		tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("22222222"));
-		TEST_PRODUCTS[2] = (new Product("test2", "test2", 2.7, true, tmp_EANS));
+	protected void createTestProduct(Product product) throws IOException, Exception {
 
-		tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("33333333"));
-		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11, true, tmp_EANS));
+		this.mockMvc.perform(post("/products").contentType(contentType).content(json(product)))
+				.andExpect(status().isCreated());
+	}
 
-		tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("44444444"));
-		TEST_PRODUCTS[4] = (new Product("test4", "test4", 47.11, false, tmp_EANS));
+	protected void createTestChart(Chart chart) throws IOException, Exception {
 
-		// Inserting the given test data
-		for (int i = 0; i < TEST_PRODUCTS.length; i++) {
-
-			this.mockMvc.perform(post("/products").contentType(contentType).content(json(TEST_PRODUCTS[i])))
-					.andExpect(status().isCreated());
-		}
-
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(chart)))
+				.andExpect(status().isCreated());
 	}
 
 	/**

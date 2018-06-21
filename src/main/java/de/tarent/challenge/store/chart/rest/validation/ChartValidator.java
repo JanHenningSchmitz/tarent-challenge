@@ -58,18 +58,18 @@ public class ChartValidator {
 		}
 
 		// Should be at least one item in the chart
-		if (chart.getChartitems().size() <= 0) {
+		if (chart.getItems().size() <= 0) {
 			throw new ChartIsEmptyOnCreateException(chart);
 		}
 
 		double expectedTotalPrice = 0;
 
 		// Validate Items
-		for (Chartitem chartitem : chart.getChartitems()) {
+		for (String chartitem : chart.getItems()) {
 			Product product = chartitemValidator.validateChartitem(chartitem);
 			// Check if available
 			chartitemValidator.productAvailableForAdding(product);
-			expectedTotalPrice += product.getPrice() * chartitem.getQuantity();
+			expectedTotalPrice += product.getPrice() * Chartitem.getQuantity(chartitem);
 		}
 
 		// Is the totalprice correct?

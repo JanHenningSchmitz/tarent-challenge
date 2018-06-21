@@ -1,37 +1,34 @@
 package de.tarent.challenge.store.chart;
 
-import static javax.persistence.GenerationType.AUTO;
-
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
-
-import de.tarent.challenge.store.chart.item.Chartitem;
 
 @Entity
 public class Chart {
 
 	@Id
-	@GeneratedValue(strategy = AUTO)
-	private Long id;
-
 	@Column(unique = true)
 	@NotNull
 	private String name;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "chart", cascade = { CascadeType.MERGE,
-			CascadeType.REFRESH }, orphanRemoval = true)
-	private Set<Chartitem> chartitems;
+	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "chart", cascade = {
+	// CascadeType.MERGE,
+	// CascadeType.REFRESH }, orphanRemoval = true)
+	// private Set<Chartitem> chartitems;
+
+	/**
+	 * String made of <sku>$<quantity>
+	 */
+	@ElementCollection
+	private Set<String> items;
 
 	private double totalprice;
 
@@ -41,9 +38,9 @@ public class Chart {
 	private Chart() {
 	}
 
-	public Chart(String name, Set<Chartitem> chartitems, double totalprice) {
+	public Chart(String name, Set<String> items, double totalprice) {
 		this.name = name;
-		this.chartitems = chartitems;
+		this.items = items;
 		this.totalprice = totalprice;
 		this.checkedout = false;
 	}
@@ -63,8 +60,8 @@ public class Chart {
 		return this.name;
 	}
 
-	public Set<Chartitem> getChartitems() {
-		return chartitems;
+	public Set<String> getItems() {
+		return items;
 	}
 
 	public double getTotalprice() {
@@ -82,19 +79,19 @@ public class Chart {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Chart chart = (Chart) o;
-		return Objects.equals(id, chart.id) && Objects.equals(name, chart.name)
-				&& Objects.equals(chartitems, chart.chartitems) && Objects.equals(totalprice, chart.totalprice);
+		return Objects.equals(name, chart.name)
+				&& Objects.equals(items, chart.items) && Objects.equals(totalprice, chart.totalprice);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, chartitems, totalprice);
+		return Objects.hash(name, items, totalprice);
 	}
 
 	@Override
 	public String toString() {
 
-		return MoreObjects.toStringHelper(this).add("id", id).add("name", name).add("chartItems", chartitems)
+		return MoreObjects.toStringHelper(this).add("name", name).add("items", items)
 				.add("totalPrice", totalprice).toString();
 	}
 }

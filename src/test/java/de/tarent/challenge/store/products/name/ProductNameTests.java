@@ -4,9 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,25 +13,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.SkuNotFoundException;
-import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductControllerTests;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductNameTests extends ProductControllerTests {
 
-	private Product testproduct = null;
-
 	@Before
-	public void setup() throws IOException, Exception {
-		
-		super.setup();
-		
-		// Creating testdata
-		Set<String> test_product_eans = new HashSet<String>();
-		test_product_eans.addAll(Arrays.asList("00000000", "00000001"));
-		testproduct = new Product("ProductNameTests", "ProductNameTests", 2.1, true, test_product_eans);
-		createTestProduct(testproduct);
+	public void setup() throws IOException, Exception {		
+		super.setup(this.getClass().getSimpleName());
 	}
 
 	@Test

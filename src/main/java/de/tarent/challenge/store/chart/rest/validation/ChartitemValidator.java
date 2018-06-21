@@ -22,17 +22,21 @@ public class ChartitemValidator {
 	 * @param chartItem
 	 * @return
 	 */
-	public Product validateChartitem(Chartitem chartItem) {
+	public Product validateChartitem(String chartitem) {
 
 		// Validate ChartItem != null
-		if (chartItem == null) {
+		if (chartitem == null) {
 			throw new ChartItemIsNullException();
 		}
+
+		String sku = Chartitem.getSku(chartitem);
+		int quantity = Chartitem.getQuantity(chartitem);
+
 		// Validate the quantity
-		quantityValidation(chartItem.getSku(), chartItem.getQuantity());
+		quantityValidation(sku, quantity);
 
 		// Validate the Product
-		return getProduct(chartItem.getSku());
+		return getProduct(sku);
 	}
 
 	private void quantityValidation(String sku, int quantity) {
@@ -57,9 +61,11 @@ public class ChartitemValidator {
 	/**
 	 * Check if Product is available
 	 */
-	public void productAvailableForCheckout(Chartitem chartitem) {
+	public void productAvailableForCheckout(String chartitem) {
 
-		Product product = getProduct(chartitem.getSku());
+		String sku = Chartitem.getSku(chartitem);
+		
+		Product product = getProduct(sku);
 
 		if (!product.isAvailable()) {
 			throw new ProductIsNotAvailableForAddingException(product);

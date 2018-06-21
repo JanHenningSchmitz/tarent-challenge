@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartDelete;
 import de.tarent.challenge.store.chart.rest.ChartGet;
 import de.tarent.challenge.store.chart.rest.ChartPost;
@@ -95,9 +94,9 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}/add", method = RequestMethod.PUT)
-	public Chart addItem(@PathVariable String name, @RequestBody Chartitem item) {
-		return chartPut.addItem(name, item);
+	@RequestMapping(value = "/{name}/add/{chartitem}", method = RequestMethod.PUT)
+	public Chart addItem(@PathVariable String name, @PathVariable String chartitem) {
+		return chartPut.addItem(name, chartitem);
 	}
 
 	/**
@@ -107,12 +106,13 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}/delete", method = RequestMethod.DELETE)
-	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
+	@RequestMapping(value = "/{name}/delete/{chartitem}", method = RequestMethod.DELETE)
+	public Chart deleteItem(@PathVariable String name, @PathVariable String chartitem) {
 
-		return chartPut.deleteItem(name, item);
+		return chartPut.deleteItem(name, chartitem);
 
 	}
+
 	/**
 	 * Delete an Item from the Chart
 	 * 
