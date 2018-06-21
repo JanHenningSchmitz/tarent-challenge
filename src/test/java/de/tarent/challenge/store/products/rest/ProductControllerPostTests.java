@@ -3,6 +3,7 @@ package de.tarent.challenge.store.products.rest;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
+import de.tarent.challenge.exeptions.EanIsEmptyException;
 import de.tarent.challenge.exeptions.InvalidProductNameException;
 import de.tarent.challenge.exeptions.InvalidSkuException;
+import de.tarent.challenge.exeptions.NoEansException;
+import de.tarent.challenge.exeptions.PriceLowerZeroException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductControllerTests;
 
@@ -141,7 +145,64 @@ public class ProductControllerPostTests extends ProductControllerTests {
 	}
 
 	@Test
-	public void addInvalidEansProduct() throws Exception {
+	public void addPriceZeroProduct() throws Exception {
 
+		String sku = "notCreated";
+		String name = "notCreated";
+		double price = 0;
+		Set<String> tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("notCreated"));
+
+		Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
+		String json = json(tmp_Product);
+
+		ResultActions resultActions = this.mockMvc.perform(post("/products").contentType(contentType).content(json))
+				.andExpect(status().is(PriceLowerZeroException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!PriceLowerZeroException.MESSAGE.equals(errorMsg)) {
+			throw new PriceLowerZeroException();
+		}
+	}
+
+	@Test
+	public void addEmptyListEansProduct() throws Exception {
+		String sku = "notCreated";
+		String name = "notCreated";
+		double price = 2.22;
+		Set<String> tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(new ArrayList<String>());
+
+		Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
+		String json = json(tmp_Product);
+
+		ResultActions resultActions = this.mockMvc.perform(post("/products").contentType(contentType).content(json))
+				.andExpect(status().is(NoEansException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!NoEansException.MESSAGE.equals(errorMsg)) {
+			throw new NoEansException();
+		}
+	}
+	
+	@Test
+	public void addEmptyEans() throws Exception {
+
+		String sku = "notCreated";
+		String name = "notCreated";
+		double price = 0;
+		Set<String> tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("   "));
+
+		Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
+		String json = json(tmp_Product);
+
+		ResultActions resultActions = this.mockMvc.perform(post("/products").contentType(contentType).content(json))
+				.andExpect(status().is(EanIsEmptyException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!EanIsEmptyException.MESSAGE.equals(errorMsg)) {
+			throw new EanIsEmptyException();
+		}
 	}
 }

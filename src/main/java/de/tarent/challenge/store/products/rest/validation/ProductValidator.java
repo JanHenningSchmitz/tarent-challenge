@@ -37,7 +37,7 @@ public class ProductValidator {
 	 */
 	public void validatePriceData(Product input) {
 		// Name: required, greater than 0
-		if (input.getPrice() < 0) {
+		if (input.getPrice() <= 0) {
 			throw new PriceLowerZeroException();
 		}
 
