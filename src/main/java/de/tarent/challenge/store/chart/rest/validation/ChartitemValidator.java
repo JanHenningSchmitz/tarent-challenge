@@ -1,4 +1,4 @@
-package de.tarent.challenge.store.chart.rest;
+package de.tarent.challenge.store.chart.rest.validation;
 
 import de.tarent.challenge.exeptions.ChartItemIsNullException;
 import de.tarent.challenge.exeptions.QuantityBelowZeroException;

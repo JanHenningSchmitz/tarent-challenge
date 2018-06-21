@@ -31,8 +31,9 @@ public class Chart {
 	@OneToMany(mappedBy = "chart")
 	private List<Chartitem> chartitems;
 
-	// TODO Could this be a automatic field?
 	private double totalprice;
+	
+	private boolean checkedOut;
 
 	@SuppressWarnings("unused") // For JPA
 	private Chart() {
@@ -42,8 +43,20 @@ public class Chart {
 		this.name = name;
 		this.chartitems = chartitems;
 		this.totalprice = totalprice;
+		this.checkedOut = false;
 	}
 
+	public boolean isCheckedOut() {
+		return checkedOut;
+	}
+	
+	/**
+	 * once checked out, it can never return
+	 */
+	public void setCheckedOut() {
+		this.checkedOut = true;
+	}
+	
 	public String getName() {
 		return this.name;
 	}

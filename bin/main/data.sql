@@ -16,7 +16,7 @@ INSERT INTO product_eans (product_id, eans) VALUES (4, '18754629');
 INSERT INTO product_eans (product_id, eans) VALUES (4, '46025548');
 INSERT INTO product_eans (product_id, eans) VALUES (5, '54342316');
 
-INSERT INTO chart (id, name, totalprice) VALUES (1, 'JanHenning', 10);
+INSERT INTO chart (id, name, totalprice, checkedout) VALUES (1, 'JanHenning', 10, false);
 
 INSERT INTO chartitem(chart_id, sku, quantity) VALUES (1, '102', 2);
 INSERT INTO chartitem(chart_id, sku, quantity) VALUES (1, 'S-155', 2);

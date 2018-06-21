@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
+import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
 
 public class ChartPost {
 

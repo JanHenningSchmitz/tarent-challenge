@@ -1,4 +1,4 @@
-package de.tarent.challenge.store.chart.rest;
+package de.tarent.challenge.store.chart.rest.validation;
 
 import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.ChartIsNullException;

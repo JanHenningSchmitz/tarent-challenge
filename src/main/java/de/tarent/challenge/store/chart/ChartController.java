@@ -13,8 +13,8 @@ import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;
 import de.tarent.challenge.store.chart.rest.ChartPost;
 import de.tarent.challenge.store.chart.rest.ChartPut;
-import de.tarent.challenge.store.chart.rest.ChartValidator;
-import de.tarent.challenge.store.chart.rest.ChartitemValidator;
+import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
+import de.tarent.challenge.store.chart.rest.validation.ChartitemValidator;
 import de.tarent.challenge.store.products.ProductService;
 
 @RestController

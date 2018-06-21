@@ -7,6 +7,7 @@ import de.tarent.challenge.exeptions.NotEnoughItemsInChartEcxeption;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 import de.tarent.challenge.store.chart.item.Chartitem;
+import de.tarent.challenge.store.chart.rest.validation.ChartitemValidator;
 import de.tarent.challenge.store.products.Product;
 
 public class ChartPut {
