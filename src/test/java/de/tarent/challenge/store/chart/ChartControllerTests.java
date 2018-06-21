@@ -31,10 +31,8 @@ public class ChartControllerTests extends StoreApplicationTests {
 
 		Set<Chartitem> tmp_ChartItems = new HashSet<Chartitem>();
 		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 3));
-		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[1].getSku(), 1));
 
-		TESTCHARTS[0] = new Chart("testChart0", tmp_ChartItems,
-				(TEST_PRODUCTS[0].getPrice() * 3 + TEST_PRODUCTS[1].getPrice()));
+		TESTCHARTS[0] = new Chart("testChart0", tmp_ChartItems, (TEST_PRODUCTS[0].getPrice() * 3));
 
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[0])))
 				.andExpect(status().isCreated());
@@ -49,12 +47,31 @@ public class ChartControllerTests extends StoreApplicationTests {
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[1])))
 				.andExpect(status().isCreated());
 
+		tmp_ChartItems = new HashSet<Chartitem>();
+		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[2].getSku(), 2));
+		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[3].getSku(), 2));
+
+		TESTCHARTS[2] = new Chart("testChart2", tmp_ChartItems,
+				(TEST_PRODUCTS[2].getPrice() * 2 + TEST_PRODUCTS[3].getPrice() * 2));
+		TESTCHARTS[2].setCheckedout();
+
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[2])))
+				.andExpect(status().isCreated());
+
+		tmp_ChartItems = new HashSet<Chartitem>();
+		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[2].getSku(), 2));
+
+		TESTCHARTS[3] = new Chart("testChart3", tmp_ChartItems, (TEST_PRODUCTS[2].getPrice() * 2));
+
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[3])))
+				.andExpect(status().isCreated());
+
 	}
 
 	protected void controllChart(ResultActions resultActions, Chart chart) throws Exception {
 
 		resultActions.andExpect(jsonPath("$.name", is(chart.getName())))
-					.andExpect(jsonPath("$.totalprice", is(chart.getTotalprice())));
+				.andExpect(jsonPath("$.totalprice", is(chart.getTotalprice())));
 		// FIXME Error with containsinanyorder
 		// .andExpect(jsonPath("$.chartitems", is(jsonChartitems)));
 	}

@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import de.tarent.challenge.store.chart.Chart;
 
-@ResponseStatus(HttpStatus.CONFLICT)
+@ResponseStatus(value = HttpStatus.CONFLICT, reason = ChartIsCheckedOutException.MESSAGE)
 public class ChartIsCheckedOutException extends RuntimeException {
+
+	public static final String MESSAGE = "chart is allready closed throug checkout";
+	public static final HttpStatus STATUS = HttpStatus.CONFLICT;
 
 	private static final long serialVersionUID = -1407032470488010345L;
 

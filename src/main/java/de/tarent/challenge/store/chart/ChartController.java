@@ -95,7 +95,7 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{name}/add", method = RequestMethod.PUT)
 	public Chart addItem(@PathVariable String name, @RequestBody Chartitem item) {
 		return chartPut.addItem(name, item);
 	}
@@ -107,7 +107,7 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}/item", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{name}/delete", method = RequestMethod.DELETE)
 	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
 
 		return chartPut.deleteItem(name, item);

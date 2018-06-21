@@ -51,7 +51,7 @@ public class StoreApplicationTests {
 	protected static final int SIZE_TEST_PRODUCT_ARRAY = 5;
 	protected static final Product[] TEST_PRODUCTS = new Product[SIZE_TEST_PRODUCT_ARRAY];
 	protected static final String ID_PRODUCT_NOT_FOUND = "666";
-	protected static final int SIZE_TEST_CHART_ARRAY = 2;
+	protected static final int SIZE_TEST_CHART_ARRAY = 4;
 	protected static Chart[] TESTCHARTS = new Chart[SIZE_TEST_CHART_ARRAY];
 
 	/**

@@ -181,4 +181,18 @@ public class ProductControllterPutTest extends ProductControllerTests {
 		}
 	}
 
+	@Test
+	public void setProductUnavailable() throws Exception {
+		Product product = TEST_PRODUCTS[0];
+		product.setAvailable(false);
+
+		String json = json(product);
+
+		ResultActions resultActions = this.mockMvc
+				.perform(put("/products/" + product.getSku()).contentType(contentType).content(json))
+				.andExpect(status().isOk());
+
+		controllProduct(resultActions, product);
+	}
+
 }
