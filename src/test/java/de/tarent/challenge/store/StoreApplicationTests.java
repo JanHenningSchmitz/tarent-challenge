@@ -89,37 +89,6 @@ public class StoreApplicationTests {
 	// .andExpect(status().isOk());
 	// }
 	//
-	// /**
-	// * Test if its possible to insert, read and delete a new Product without an
-	// * error
-	// *
-	// * @throws Exception
-	// */
-	// @Test
-	// public void addReadAndDeleteNewProduct() throws Exception {
-	//
-	// String sku = "4545";
-	// String name = "ShortLive";
-	// double price = 2.22;
-	// Set<String> tmp_EANS = new HashSet<String>();
-	// tmp_EANS.addAll(Arrays.asList("12344321", "77777777", "23498128"));
-	//
-	// Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
-	// String json = json(tmp_Product);
-	//
-	// this.mockMvc.perform(post("/products").contentType(contentType).content(json)).andExpect(status().isCreated());
-	//
-	// this.mockMvc.perform(get("/products/" + sku)).andExpect(status().isOk())
-	// .andExpect(content().contentType(contentType)).andExpect(jsonPath("$.sku",
-	// is(sku)))
-	// .andExpect(jsonPath("$.name", is(name)))
-	// .andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new
-	// String[0]))));
-	//
-	// this.mockMvc.perform(delete("/products/" +
-	// sku).contentType(contentType)).andExpect(status().isOk());
-	// }
-	//
 
 	/**
 	 * Unchecked, since its only for test purpose

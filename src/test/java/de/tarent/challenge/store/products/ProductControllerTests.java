@@ -1,7 +1,10 @@
 package de.tarent.challenge.store.products;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -10,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
+import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.store.StoreApplicationTests;
 
@@ -35,7 +39,7 @@ public class ProductControllerTests extends StoreApplicationTests {
 
 		// Specify the first for later testing
 		Set<String> tmp_EANS = new HashSet<String>();
-		tmp_EANS.addAll(Arrays.asList("00000000"));
+		tmp_EANS.addAll(Arrays.asList("00000000", "00000001"));
 		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, true, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
@@ -61,6 +65,14 @@ public class ProductControllerTests extends StoreApplicationTests {
 					.andExpect(status().isCreated());
 		}
 
+	}
+		
+	protected void controllProduct(ResultActions resultActions, Product product) throws Exception {
+		resultActions.andExpect(jsonPath("$.sku", is(product.getSku())))
+		.andExpect(jsonPath("$.name", is(product.getName())))
+		.andExpect(jsonPath("$.price", is(product.getPrice())))
+		.andExpect(jsonPath("$.available", is(product.isAvailable())))
+		.andExpect(jsonPath("$.eans", containsInAnyOrder(product.getEans().toArray(new String[0]))));
 	}
 
 }

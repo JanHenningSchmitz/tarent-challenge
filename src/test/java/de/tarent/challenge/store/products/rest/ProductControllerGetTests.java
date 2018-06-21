@@ -27,10 +27,9 @@ public class ProductControllerGetTests extends ProductControllerTests {
 		// First the Header
 		ResultActions resultActions = mockMvc.perform(get("/products/" + TEST_PRODUCTS[0].getSku()));
 
-		resultActions.andExpect(status().isOk()).andExpect(content().contentType(contentType))
-				.andExpect(jsonPath("$.sku", is(TEST_PRODUCTS[0].getSku())))
-				.andExpect(jsonPath("$.name", is(TEST_PRODUCTS[0].getName())))
-				.andExpect(jsonPath("$.eans", containsInAnyOrder(TEST_PRODUCTS[0].getEans().toArray(new String[0]))));
+		resultActions.andExpect(status().isOk()).andExpect(content().contentType(contentType));
+		
+		controllProduct(resultActions, TEST_PRODUCTS[0]);
 	}
 
 	@Test
@@ -55,10 +54,11 @@ public class ProductControllerGetTests extends ProductControllerTests {
 
 		// Now Check the Content
 		for (int i = 0; i < TEST_PRODUCTS.length; i++) {
-			resultActions.andExpect(jsonPath("$[" + i + "].sku", is(TEST_PRODUCTS[i].getSku())))
-					.andExpect(jsonPath("$[" + i + "].name", is(TEST_PRODUCTS[i].getName())))
-					.andExpect(jsonPath("$[" + i + "].eans",
-							containsInAnyOrder(TEST_PRODUCTS[i].getEans().toArray(new String[0]))));
+			resultActions.andExpect(jsonPath("$["+i+"].sku", is(TEST_PRODUCTS[i].getSku())))
+			.andExpect(jsonPath("$["+i+"].name", is(TEST_PRODUCTS[i].getName())))
+			.andExpect(jsonPath("$["+i+"].price", is(TEST_PRODUCTS[i].getPrice())))
+			.andExpect(jsonPath("$["+i+"].available", is(TEST_PRODUCTS[i].isAvailable())))
+			.andExpect(jsonPath("$["+i+"].eans", containsInAnyOrder(TEST_PRODUCTS[i].getEans().toArray(new String[0]))));
 		}
 
 	}

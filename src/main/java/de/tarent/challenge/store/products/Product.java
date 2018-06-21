@@ -41,6 +41,19 @@ public class Product {
 		this.available = available;
 	}
 
+	@SuppressWarnings("unused") // To hide from altering
+	private final void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public boolean isAvailable() {
 		return available;
 	}
