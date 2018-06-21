@@ -41,26 +41,29 @@ public class ChartPut {
 		// Check if Item is available
 		chartitemValidator.productAvailableForAdding(product);
 
-		boolean found = false;
+		String foundForRemove = null;
 		// should be not null at this point
 		for (String itemFromChart : chart.getItems()) {
 			if (Chartitem.getSku(itemFromChart).equals(sku)) {
 
 				chartitem = Chartitem.addQuantity(itemFromChart, quantity);
-				found = true;
+				foundForRemove = itemFromChart;
 				break;
 			}
 		}
 
 		// If not found, add a new Item to the Chart
-		if (!found) {
+		if (foundForRemove == null) {
 			chart.getItems().add(Chartitem.createChartitem(sku, quantity));
 		}
+		
+		chart.getItems().remove(foundForRemove);
+		chart.getItems().add(chartitem);
 
 		// Altering the total price
 		double totalprice = chart.getTotalprice() + (product.getPrice() * quantity);
 		chart.setTotalprice(totalprice);
-
+		
 		try {
 			return this.chartService.changeItems(chart);
 		} catch (Exception e) {
@@ -84,7 +87,7 @@ public class ChartPut {
 		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
 
-		String forRemove = null;
+		String foundForRemove = null;
 		// should be not null at this point
 		for (String itemFromChart : chart.getItems()) {
 			if (Chartitem.getSku(itemFromChart).equals(sku)) {
@@ -95,23 +98,26 @@ public class ChartPut {
 				}
 
 				chartitem = Chartitem.subQuantity(itemFromChart, quantity);
-				forRemove = chartitem;
+				foundForRemove = itemFromChart;
 				break;
 			}
 		}
 
 		// Can't delete if it isn't in the chart
-		if (forRemove == null) {
+		if (foundForRemove == null) {
 			throw new ItemNotInChartException(name, sku, quantity);
 		}
 
 		// Alter the total price
-		double totalprice = chart.getTotalprice() + (product.getPrice() * quantity);
+		double totalprice = chart.getTotalprice() - (product.getPrice() * quantity);
 		chart.setTotalprice(totalprice);
-
+		
+		chart.getItems().remove(foundForRemove);
+		chart.getItems().add(chartitem);
+		
 		// Remove from Chart if there are non left
-		if (Chartitem.getQuantity(forRemove) <= 0) {
-			chart.getItems().remove(forRemove);
+		if (Chartitem.getQuantity(foundForRemove) <= 0) {
+			chart.getItems().remove(foundForRemove);
 		}
 
 		// Delete the Chart if there are no Items left

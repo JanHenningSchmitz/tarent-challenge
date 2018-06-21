@@ -66,9 +66,9 @@ public class StoreApplicationTests {
 		createTestProduct(testproduct);
 
 		Set<String> tmp_ChartItems = new HashSet<String>();
-		tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 1));
+		tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 2));
 
-		testchart = new Chart("testchart", tmp_ChartItems, (this.testproduct.getPrice()));
+		testchart = new Chart("testchart", tmp_ChartItems, (this.testproduct.getPrice()*2));
 		createTestChart(testchart);
 	}
 

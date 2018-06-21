@@ -94,7 +94,7 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}/add/{chartitem}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{name}/add/{chartitem}", method = RequestMethod.POST)
 	public Chart addItem(@PathVariable String name, @PathVariable String chartitem) {
 		return chartPut.addItem(name, chartitem);
 	}

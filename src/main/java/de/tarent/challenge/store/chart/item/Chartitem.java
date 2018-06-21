@@ -2,7 +2,7 @@ package de.tarent.challenge.store.chart.item;
 
 public class Chartitem {
 	
-	private static final String SPLITTER = ";";
+	private static final String SPLITTER = ",";
 	
 	public static String createChartitem(String sku, int quantity) {
 		return sku + SPLITTER + quantity;
