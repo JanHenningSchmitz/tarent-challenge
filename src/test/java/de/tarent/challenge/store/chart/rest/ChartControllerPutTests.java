@@ -1,54 +1,76 @@
 package de.tarent.challenge.store.chart.rest;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
+import de.tarent.challenge.store.products.Product;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartControllerPutTests extends ChartControllerTests {
 
 	@Test
-	public void createNewChart() throws Exception {
+	public void addExistingItemToChart() throws Exception {
+		
+		Chart chart = TESTCHARTS[0];
+		Product product = TEST_PRODUCTS[0];
+		Chartitem item = new Chartitem(product.getSku(), 2);
+		
+		double expectetPrice = item.getQuantity() * product.getPrice();
+		chart.setTotalprice(chart.getTotalprice() + expectetPrice);
+		
+		ResultActions resultActions = addItemsToChart(chart.getName(), item);
+		resultActions.andExpect(status().isOk());
+		
+		controllChart(resultActions, chart);
 
-		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
-		Set<Chartitem> chartItems = new HashSet<Chartitem>();
-		chartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 2));
-
-		String testUserName = "TestUser";
-		Chart testChart = new Chart(testUserName, chartItems, expectetPrice);
-
-		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(testChart)))
-				.andExpect(status().isCreated());
-
-		this.mockMvc.perform(get("/charts/" + testChart.getName())).andExpect(status().isOk())
-				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testChart.getName())))
-				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
-		// TODO Numbers of Elements should also be checked
-		// .andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
-
-//		expectetPrice += 2 * TEST_PRODUCTS[1].getPrice();
-//		addItemsToChart(TEST_PRODUCTS[1], testChart, 2);
-//		readChart(testChart.getName(), expectetPrice);
-//
-//		expectetPrice += TEST_PRODUCTS[2].getPrice() * 5;
-//		addItemsToChart(TEST_PRODUCTS[2], testChart, 5);
-//		readChart(testChart.getName(), expectetPrice);
 	}
-	
+
+	@Test
+	public void addNewItemToChart() throws Exception {
+		
+		Chart chart = TESTCHARTS[0];
+		Product product = TEST_PRODUCTS[2];
+		Chartitem item = new Chartitem(product.getSku(), 1);
+		
+		double expectetPrice = item.getQuantity() * product.getPrice();
+		chart.setTotalprice(chart.getTotalprice() + expectetPrice);
+		
+		ResultActions resultActions = addItemsToChart(chart.getName(), item);
+		resultActions.andExpect(status().isOk());
+		
+		controllChart(resultActions, chart);
+
+	}
+
+	@Test
+	public void deleteItemFromChart() throws Exception {
+
+	}
+
+	@Test
+	public void deleteLastItemFromChart() throws Exception {
+
+	}
+
+	@Test
+	public void changeWithWrongChart() throws Exception {
+
+	}
+
+	private ResultActions addItemsToChart(String chartname, Chartitem chartitem) throws Exception {
+
+		String json = json(chartitem);
+
+		return this.mockMvc.perform(put("/charts/" + chartname).contentType(contentType).content(json));
+	}
 }

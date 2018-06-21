@@ -60,7 +60,6 @@ public class ChartPut {
 		try {
 			return this.chartService.changeItems(chart);
 		} catch (Exception e) {
-			System.out.println(e);
 			throw new ErrorWhileAddingItem(name, product.getSku(), chartitem.getQuantity());
 		}
 

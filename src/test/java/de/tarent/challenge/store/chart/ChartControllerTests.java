@@ -30,11 +30,11 @@ public class ChartControllerTests extends StoreApplicationTests {
 		mockMvc.perform(delete("/charts/all"));
 
 		Set<Chartitem> tmp_ChartItems = new HashSet<Chartitem>();
-		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 1));
+		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 3));
 		tmp_ChartItems.add(new Chartitem(TEST_PRODUCTS[1].getSku(), 1));
 
 		TESTCHARTS[0] = new Chart("testChart0", tmp_ChartItems,
-				(TEST_PRODUCTS[0].getPrice() + TEST_PRODUCTS[1].getPrice()));
+				(TEST_PRODUCTS[0].getPrice() * 3 + TEST_PRODUCTS[1].getPrice()));
 
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[0])))
 				.andExpect(status().isCreated());
@@ -53,14 +53,8 @@ public class ChartControllerTests extends StoreApplicationTests {
 
 	protected void controllChart(ResultActions resultActions, Chart chart) throws Exception {
 
-		// String jsonChartitems = "[";
-		// for(Chartitem item : chart.getChartitems()) {
-		// jsonChartitems += item.getSku() + "" + item.getQuantity();
-		// }
-		// jsonChartitems += "]";
-
 		resultActions.andExpect(jsonPath("$.name", is(chart.getName())))
-				.andExpect(jsonPath("$.totalprice", is(chart.getTotalprice())));
+					.andExpect(jsonPath("$.totalprice", is(chart.getTotalprice())));
 		// FIXME Error with containsinanyorder
 		// .andExpect(jsonPath("$.chartitems", is(jsonChartitems)));
 	}

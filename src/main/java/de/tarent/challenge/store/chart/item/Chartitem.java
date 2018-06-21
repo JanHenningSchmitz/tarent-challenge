@@ -2,6 +2,7 @@ package de.tarent.challenge.store.chart.item;
 
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,7 +22,7 @@ public class Chartitem {
 	private int quantity;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	@JoinColumn(name = "chart_id")
 	private Chart chart;
 
