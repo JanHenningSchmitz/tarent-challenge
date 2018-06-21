@@ -1,13 +1,10 @@
 package de.tarent.challenge.store.products;
 
-import static javax.persistence.GenerationType.AUTO;
-
 import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.google.common.base.MoreObjects;
@@ -16,10 +13,12 @@ import com.google.common.collect.Sets;
 @Entity
 public class Product {
 
-	@Id
-	@GeneratedValue(strategy = AUTO)
-	private Long id;
+	// @Id
+	// @GeneratedValue(strategy = AUTO)
+	// @JsonIgnore
+	// private Long id;
 
+	@Id
 	private String sku;
 
 	private String name;
@@ -78,18 +77,21 @@ public class Product {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Product product = (Product) o;
-		return Objects.equals(id, product.id) && Objects.equals(sku, product.sku) && Objects.equals(name, product.name)
-				&& Objects.equals(eans, product.eans) && Objects.equals(price, product.price);
+		return
+		// Objects.equals(id, product.id) &&
+		Objects.equals(sku, product.sku) && Objects.equals(name, product.name) && Objects.equals(eans, product.eans)
+				&& Objects.equals(price, product.price);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, sku, name, eans, price);
+		return Objects.hash(/* id, */sku, name, eans, price);
 	}
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("id", id).add("sku", sku).add("name", name).add("eans", eans)
-				.add("price", price).toString();
+		return MoreObjects.toStringHelper(this)
+				// .add("id", id)
+				.add("sku", sku).add("name", name).add("eans", eans).add("price", price).toString();
 	}
 }
