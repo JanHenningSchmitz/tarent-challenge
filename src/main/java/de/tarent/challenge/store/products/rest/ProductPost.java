@@ -27,8 +27,9 @@ public class ProductPost {
 	 * 
 	 * @param input
 	 * @return
+	 * @throws Exception 
 	 */
-	public ResponseEntity<?> addProduct(Product input) {
+	public ResponseEntity<?> addProduct(Product input) throws Exception {
 
 		productValidator.validateSkuData(input, true);
 		productValidator.validateNameData(input);

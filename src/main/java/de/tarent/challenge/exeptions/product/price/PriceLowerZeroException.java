@@ -1,4 +1,4 @@
-package de.tarent.challenge.exeptions;
+package de.tarent.challenge.exeptions.product.price;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

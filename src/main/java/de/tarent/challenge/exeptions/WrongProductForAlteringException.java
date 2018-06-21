@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import de.tarent.challenge.store.products.Product;
 
+@Deprecated
 @ResponseStatus(value = HttpStatus.CONFLICT, reason = WrongProductForAlteringException.MESSAGE)
 public class WrongProductForAlteringException extends RuntimeException {
 

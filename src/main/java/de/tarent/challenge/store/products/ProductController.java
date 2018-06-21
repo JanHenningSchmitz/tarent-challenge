@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tarent.challenge.store.products.rest.ProductDelete;
@@ -65,15 +65,76 @@ public class ProductController {
 	 * 
 	 * @param input
 	 * @return
+	 * @throws Exception
 	 */
 	@PostMapping()
-	public ResponseEntity<?> addProduct(@RequestBody Product input) {
+	public ResponseEntity<?> addProduct(@RequestBody Product input) throws Exception {
 		return productPost.addProduct(input);
 	}
 
-	@RequestMapping(value = "/{sku}", method = RequestMethod.PUT)
-	public Product changeProduct(@PathVariable String sku, @RequestBody Product input) {
-		return productPut.changeProduct(sku, input);
+	/**
+	 * Changing the Product Name
+	 * 
+	 * @param sku
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	@PutMapping(value = "/{sku}/name/{newName}")
+	public Product changeProductName(@PathVariable String sku, @PathVariable String newName) throws Exception {
+		return productPut.changeProductName(sku, newName);
+	}
+
+	/**
+	 * Changing the Product Price
+	 * 
+	 * @param sku
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	@PutMapping(value = "/{sku}/price/{newPrice:.+}")
+	public Product changeProductPrice(@PathVariable String sku, @PathVariable double newPrice) throws Exception {
+		return productPut.changeProductPrice(sku, newPrice);
+	}
+
+	/**
+	 * Changing the Product Available State
+	 * 
+	 * @param sku
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	@PutMapping(value = "/{sku}/available/{newAvailable}")
+	public Product changeProductAvailable(@PathVariable String sku, @PathVariable boolean newAvailable) throws Exception {
+		return productPut.changeProductAvailable(sku, newAvailable);
+	}
+
+	/**
+	 * Deleting a EAN from the product
+	 * 
+	 * @param sku
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	@DeleteMapping(value = "/{sku}/eans/{deleteEan}")
+	public Product removeEanFromProduct(@PathVariable String sku, @PathVariable String deleteEan) throws Exception {
+		return productPut.removeEanFromProduct(sku, deleteEan);
+	}
+
+	/**
+	 * Adding EAN to the product
+	 * 
+	 * @param sku
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping(value = "/{sku}/eans/{addEan}")
+	public Product addEanToProduct(@PathVariable String sku, @PathVariable String addEan) throws Exception {
+		return productPut.addEanToProduct(sku, addEan);
 	}
 
 	/**

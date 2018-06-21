@@ -1,12 +1,12 @@
 package de.tarent.challenge.store.products.rest.validation;
 
 import de.tarent.challenge.exeptions.EanIsEmptyException;
-import de.tarent.challenge.exeptions.InvalidProductNameException;
-import de.tarent.challenge.exeptions.InvalidSkuException;
 import de.tarent.challenge.exeptions.NoEansException;
-import de.tarent.challenge.exeptions.PriceLowerZeroException;
-import de.tarent.challenge.exeptions.ProductAllreadyInUseException;
 import de.tarent.challenge.exeptions.SkuNotFoundException;
+import de.tarent.challenge.exeptions.product.name.InvalidProductNameException;
+import de.tarent.challenge.exeptions.product.price.PriceLowerZeroException;
+import de.tarent.challenge.exeptions.product.sku.InvalidSkuException;
+import de.tarent.challenge.exeptions.product.sku.ProductAllreadyInUseException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.rest.ProductGet;
 
@@ -24,8 +24,17 @@ public class ProductValidator {
 	 * @param input
 	 */
 	public void validateNameData(Product input) {
+		validateNameData(input.getName());
+	}
+
+	/**
+	 * Name: required, not empty
+	 * 
+	 * @param input
+	 */
+	public void validateNameData(String name) {
 		// Name: required, not empty
-		if (input.getName() == null || input.getName().trim().length() == 0) {
+		if (name == null || name.trim().length() == 0) {
 			throw new InvalidProductNameException();
 		}
 	}
@@ -36,8 +45,12 @@ public class ProductValidator {
 	 * @param input
 	 */
 	public void validatePriceData(Product input) {
+		validatePriceData(input.getPrice());
+	}
+
+	public void validatePriceData(double price) {
 		// Name: required, greater than 0
-		if (input.getPrice() <= 0) {
+		if (price <= 0) {
 			throw new PriceLowerZeroException();
 		}
 
@@ -49,40 +62,58 @@ public class ProductValidator {
 	 * @param input
 	 */
 	public void validateEanData(Product input) {
-		// Name: required, not empty
 		if (input.getEans() == null || input.getEans().size() < 1) {
 			throw new NoEansException();
 		}
 
-		// Name: not empty
 		for (String ean : input.getEans()) {
-			if (ean == null || ean.trim().length() == 0)
-				throw new EanIsEmptyException();
+			validateEan(ean);
 		}
+	}
+
+	/**
+	 * EANs: At least one, non-empty item
+	 * 
+	 * @param input
+	 */
+	public void validateEan(String ean) {
+		if (ean == null || ean.trim().length() == 0)
+			throw new EanIsEmptyException();
+	}
+
+	/**
+	 * SKU: required, not empty, unique
+	 * 
+	 * @throws Exception
+	 */
+	public Product validateSkuData(Product input, boolean newProduct) throws Exception {
+		return validateSkuData(input.getSku(), newProduct);
 	}
 
 	/**
 	 * SKU: required, not empty, unique
 	 */
-	public void validateSkuData(Product input, boolean newProduct) {
+	public Product validateSkuData(String sku, boolean newProduct) throws Exception {
 		// SKU: required, not empty
-		if (input.getSku() == null || input.getSku().trim().length() == 0) {
+		if (sku == null || sku.trim().length() == 0) {
 			throw new InvalidSkuException();
 		}
 
-		if(newProduct) {
-			
+		if (newProduct) {
+
 			// SKU: unique
 			try {
-				if (productGet.getBySku(input.getSku()) != null) {
-					throw new ProductAllreadyInUseException(input.getSku());
+				if (productGet.getBySku(sku) != null) {
+					throw new ProductAllreadyInUseException(sku);
 				}
 			} catch (SkuNotFoundException snfe) {
 				// Do nothing, since this exception is wanted in this case
+				return null;
 			}
-		}else {
-			// Throws a Exception if not there
-			productGet.getBySku(input.getSku());
 		}
+
+		// Throws a Exception if not there
+		return productGet.getBySku(sku);
+
 	}
 }
