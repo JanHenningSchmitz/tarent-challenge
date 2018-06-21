@@ -29,4 +29,12 @@ public class ProductDelete {
 		}
 
 	}
+
+	/**
+	 * Deleting all Products, JUST FOR TESTING
+	 */
+	public void deleteAll() {
+		this.productService.deleteAll();
+
+	}
 }

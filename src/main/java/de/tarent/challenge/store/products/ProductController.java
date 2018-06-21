@@ -84,4 +84,13 @@ public class ProductController {
 		productDelete.deleteBySKU(sku);
 	}
 
+	/**
+	 * Deleting all Products, JUST FOR TESTING
+	 */
+	@DeleteMapping("/all")
+	public void deleteAll() {
+		productDelete.deleteAll();
+
+	}
+
 }
