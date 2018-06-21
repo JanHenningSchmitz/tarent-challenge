@@ -86,23 +86,23 @@ public class StoreApplicationTests {
 		// Specify the first for later testing
 		Set<String> tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("00000000"));
-		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, tmp_EANS));
+		TEST_PRODUCTS[0] = (new Product("test0", "test0", 2.5, true, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("11111111"));
-		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0, tmp_EANS));
+		TEST_PRODUCTS[1] = (new Product("test1", "test1", 3.0, true, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("22222222"));
-		TEST_PRODUCTS[2] = (new Product("test2", "test2", 2.7, tmp_EANS));
+		TEST_PRODUCTS[2] = (new Product("test2", "test2", 2.7, true, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("33333333"));
-		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11, tmp_EANS));
+		TEST_PRODUCTS[3] = (new Product("test3", "test3", 1.11, true, tmp_EANS));
 
 		tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("44444444"));
-		TEST_PRODUCTS[4] = (new Product("test4", "test4", 47.11, tmp_EANS));
+		TEST_PRODUCTS[4] = (new Product("test4", "test4", 47.11, false, tmp_EANS));
 
 		// Inserting the given test data
 		for (int i = 0; i < TEST_PRODUCTS.length; i++) {
@@ -115,22 +115,22 @@ public class StoreApplicationTests {
 
 	@Test
 	public void createNewChartAndAddItems() throws Exception {
-		
+
 		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
 		List<Chartitem> chartItems = new ArrayList<Chartitem>();
 		chartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 2));
-		
+
 		String testUserName = "TestUser";
 		Chart testChart = new Chart(testUserName, chartItems, expectetPrice);
-		
+
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(testChart)))
 				.andExpect(status().isCreated());
 
 		this.mockMvc.perform(get("/charts/" + testChart.getName())).andExpect(status().isOk())
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testChart.getName())))
 				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
-				// TODO Numbers of Elements should also be checked
-				// .andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
+		// TODO Numbers of Elements should also be checked
+		// .andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
 
 		expectetPrice += 2 * TEST_PRODUCTS[1].getPrice();
 		addItemsToChart(TEST_PRODUCTS[1], testChart, 2);
@@ -140,22 +140,23 @@ public class StoreApplicationTests {
 		addItemsToChart(TEST_PRODUCTS[2], testChart, 5);
 		readChart(testChart.getName(), expectetPrice);
 	}
-	
-	private void readChart(String name, double expectetPrice) throws Exception{
+
+	private void readChart(String name, double expectetPrice) throws Exception {
 		this.mockMvc.perform(get("/charts/" + name)).andExpect(status().isOk())
-		.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(name)))
-		.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(name)))
+				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
 		// TODO Numbers of Elements should also be checked
-		//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
+		// .andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new
+		// String[0]))));
 	}
-	
-	private void addItemsToChart(Product product, Chart chart, int quantity) throws Exception{
+
+	private void addItemsToChart(Product product, Chart chart, int quantity) throws Exception {
 
 		Chartitem item = new Chartitem(product.getSku(), quantity);
 		String json = json(item);
-		
-		this.mockMvc.perform(put("/charts/"+chart.getName())
-			.contentType(contentType).content(json)).andExpect(status().isOk());
+
+		this.mockMvc.perform(put("/charts/" + chart.getName()).contentType(contentType).content(json))
+				.andExpect(status().isOk());
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class StoreApplicationTests {
 		Set<String> tmp_EANS = new HashSet<String>();
 		tmp_EANS.addAll(Arrays.asList("12344321", "77777777", "23498128"));
 
-		Product tmp_Product = new Product(sku, name, price, tmp_EANS);
+		Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
 		String json = json(tmp_Product);
 
 		this.mockMvc.perform(post("/products").contentType(contentType).content(json)).andExpect(status().isCreated());
