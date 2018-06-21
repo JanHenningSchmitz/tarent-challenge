@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Sets;
 
 @Entity
 public class Product {
