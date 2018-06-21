@@ -2,7 +2,6 @@ package de.tarent.challenge.store.chart;
 
 import static javax.persistence.GenerationType.AUTO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,10 +38,10 @@ public class Chart {
 	private Chart() {
 	}
 
-	public Chart(String name) {
+	public Chart(String name, List<Chartitem> chartitems, double totalprice) {
 		this.name = name;
-		this.chartitems = new ArrayList<>();
-		this.totalprice = 0;
+		this.chartitems = chartitems;
+		this.totalprice = totalprice;
 	}
 
 	public String getName() {

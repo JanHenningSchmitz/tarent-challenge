@@ -34,8 +34,7 @@ public class Chartitem {
 	private Chartitem() {
 	}
 
-	public Chartitem(Chart chart, String sku, int quantity) {
-		this.chart = chart;
+	public Chartitem(String sku, int quantity) {
 		this.sku = sku;
 		this.quantity = quantity;
 	}

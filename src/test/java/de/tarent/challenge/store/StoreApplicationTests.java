@@ -14,8 +14,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -113,24 +115,29 @@ public class StoreApplicationTests {
 
 	@Test
 	public void createNewChartAndAddItems() throws Exception {
-
-		String testUserName = "TestUser";
-		Chart testChart = new Chart(testUserName);
 		
-		this.mockMvc.perform(post("/charts").contentType(contentType).content(testChart.getName()))
+		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
+		List<Chartitem> chartItems = new ArrayList<Chartitem>();
+		chartItems.add(new Chartitem(TEST_PRODUCTS[0].getSku(), 2));
+		
+		String testUserName = "TestUser";
+		Chart testChart = new Chart(testUserName, chartItems, expectetPrice);
+		
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(testChart)))
 				.andExpect(status().isCreated());
 
 		this.mockMvc.perform(get("/charts/" + testChart.getName())).andExpect(status().isOk())
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testChart.getName())))
-				.andExpect(jsonPath("$.totalprice", is(0.0)))
-				.andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
+				.andExpect(jsonPath("$.totalprice", is(expectetPrice)));
+				// TODO Numbers of Elements should also be checked
+				// .andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
 
-		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
-		addItemsToChart(TEST_PRODUCTS[0], testChart, 2);
+		expectetPrice += 2 * TEST_PRODUCTS[1].getPrice();
+		addItemsToChart(TEST_PRODUCTS[1], testChart, 2);
 		readChart(testChart.getName(), expectetPrice);
 
-		expectetPrice += TEST_PRODUCTS[1].getPrice() * 5;
-		addItemsToChart(TEST_PRODUCTS[1], testChart, 5);
+		expectetPrice += TEST_PRODUCTS[2].getPrice() * 5;
+		addItemsToChart(TEST_PRODUCTS[2], testChart, 5);
 		readChart(testChart.getName(), expectetPrice);
 	}
 	
@@ -144,7 +151,7 @@ public class StoreApplicationTests {
 	
 	private void addItemsToChart(Product product, Chart chart, int quantity) throws Exception{
 
-		Chartitem item = new Chartitem(chart, product.getSku(), quantity);
+		Chartitem item = new Chartitem(product.getSku(), quantity);
 		String json = json(item);
 		
 		this.mockMvc.perform(put("/charts/"+chart.getName())

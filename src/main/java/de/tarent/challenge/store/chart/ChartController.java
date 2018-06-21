@@ -13,6 +13,8 @@ import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;
 import de.tarent.challenge.store.chart.rest.ChartPost;
 import de.tarent.challenge.store.chart.rest.ChartPut;
+import de.tarent.challenge.store.chart.rest.ChartValidator;
+import de.tarent.challenge.store.chart.rest.ChartitemValidator;
 import de.tarent.challenge.store.products.ProductService;
 
 @RestController
@@ -21,11 +23,17 @@ public class ChartController {
 	private final ChartGet chartGet;
 	private final ChartPost chartPost;
 	private final ChartPut chartPut;
+	private final ChartValidator chartValidator;
+	private final ChartitemValidator chartitemValidator;
 
 	public ChartController(ChartService chartService, ProductService productService) {
+		
+		chartitemValidator = new ChartitemValidator(productService);
+		chartValidator = new ChartValidator(chartitemValidator);
+		
 		this.chartGet = new ChartGet(chartService);
-		this.chartPost = new ChartPost(chartService);
-		this.chartPut = new ChartPut(chartService, chartGet, productService);
+		this.chartPut = new ChartPut(chartService, chartGet, chartitemValidator);
+		this.chartPost = new ChartPost(chartService, chartValidator);
 	}
 
 	/**
@@ -56,8 +64,8 @@ public class ChartController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<?> createNewChart(@RequestBody String name) {
-		return chartPost.createNewChart(name);
+	public ResponseEntity<?> createNewChart(@RequestBody Chart chart) {
+		return chartPost.createNewChart(chart);
 
 	}
 
@@ -70,7 +78,7 @@ public class ChartController {
 	 @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
 	public Chart addItem(@PathVariable String name, @RequestBody Chartitem item) {
 
-		return chartPut.addItem(name, item.getSku(), item.getQuantity());
+		return chartPut.addItem(name, item);
 
 	}
 	 
@@ -83,7 +91,7 @@ public class ChartController {
 	 @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
 	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
 
-		return chartPut.deleteItem(name, item.getSku(), item.getQuantity());
+		return chartPut.deleteItem(name, item);
 
 	}
 
