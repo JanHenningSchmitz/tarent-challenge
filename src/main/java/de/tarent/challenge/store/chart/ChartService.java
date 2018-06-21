@@ -28,4 +28,9 @@ public class ChartService {
 	public Chart changeItems(Chart chart) {
 		return chartCatalog.saveAndFlush(chart);
 	}
+
+	public void deleteChart(Chart chart) {
+		chartCatalog.delete(chart);
+		chartCatalog.flush();
+	}
 }

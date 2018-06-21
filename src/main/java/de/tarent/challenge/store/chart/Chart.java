@@ -2,14 +2,16 @@ package de.tarent.challenge.store.chart;
 
 import static javax.persistence.GenerationType.AUTO;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 
@@ -22,10 +24,13 @@ public class Chart {
 	@GeneratedValue(strategy = AUTO)
 	private Long id;
 
+	// TODO: Add Validation to create chart
+	@Column(unique = true)
+	@NotNull
 	private String name;
 
-	@ElementCollection
-	private Set<Chartitem> chartitems;
+	@OneToMany(mappedBy = "chart")
+	private List<Chartitem> chartitems;
 
 	// TODO Could this be a automatic field?
 	private double totalprice;
@@ -36,7 +41,7 @@ public class Chart {
 
 	public Chart(String name) {
 		this.name = name;
-		this.chartitems = new HashSet<>();
+		this.chartitems = new ArrayList<>();
 		this.totalprice = 0;
 	}
 
@@ -44,7 +49,7 @@ public class Chart {
 		return this.name;
 	}
 
-	public Set<Chartitem> getChartitems() {
+	public List<Chartitem> getChartitems() {
 		return chartitems;
 	}
 
@@ -74,6 +79,7 @@ public class Chart {
 
 	@Override
 	public String toString() {
+
 		return MoreObjects.toStringHelper(this).add("id", id).add("name", name).add("chartItems", chartitems)
 				.add("totalPrice", totalprice).toString();
 	}

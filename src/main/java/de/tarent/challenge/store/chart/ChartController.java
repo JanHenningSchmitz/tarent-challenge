@@ -83,7 +83,7 @@ public class ChartController {
 	 @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
 	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
 
-		return chartPut.addItem(name, item.getSku(), item.getQuantity());
+		return chartPut.deleteItem(name, item.getSku(), item.getQuantity());
 
 	}
 

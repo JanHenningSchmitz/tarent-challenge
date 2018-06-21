@@ -1,25 +1,47 @@
 package de.tarent.challenge.store.chart.item;
 
-import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 
-public class Chartitem implements Serializable {
+import de.tarent.challenge.store.chart.Chart;
 
-	private static final long serialVersionUID = -3684297046665909369L;
+@Entity
+public class Chartitem {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
 	private String sku;
 
 	private int quantity;
 
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "chart_id")
+	private Chart chart;
+
 	@SuppressWarnings("unused") // For JPA
 	private Chartitem() {
 	}
 
-	public Chartitem(String sku, int quantity) {
+	public Chartitem(Chart chart, String sku, int quantity) {
+		this.chart = chart;
 		this.sku = sku;
 		this.quantity = quantity;
+	}
+
+	public Chart getChart() {
+		return this.chart;
 	}
 
 	public String getSku() {
@@ -28,6 +50,10 @@ public class Chartitem implements Serializable {
 
 	public int getQuantity() {
 		return quantity;
+	}
+
+	public void setChart(Chart chart) {
+		this.chart = chart;
 	}
 
 	public int addQuantity(int add) {
@@ -55,6 +81,7 @@ public class Chartitem implements Serializable {
 
 	@Override
 	public String toString() {
+
 		return MoreObjects.toStringHelper(this).add("sku", sku).add("quantity", quantity).toString();
 	}
 }

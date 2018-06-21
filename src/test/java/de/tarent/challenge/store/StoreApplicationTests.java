@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
+import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
@@ -114,22 +115,23 @@ public class StoreApplicationTests {
 	public void createNewChartAndAddItems() throws Exception {
 
 		String testUserName = "TestUser";
+		Chart testChart = new Chart(testUserName);
 		
-		this.mockMvc.perform(post("/charts").contentType(contentType).content(testUserName))
+		this.mockMvc.perform(post("/charts").contentType(contentType).content(testChart.getName()))
 				.andExpect(status().isCreated());
 
-		this.mockMvc.perform(get("/charts/" + testUserName)).andExpect(status().isOk())
-				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testUserName)))
+		this.mockMvc.perform(get("/charts/" + testChart.getName())).andExpect(status().isOk())
+				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$.name", is(testChart.getName())))
 				.andExpect(jsonPath("$.totalprice", is(0.0)))
 				.andExpect(jsonPath("$.chartitems", containsInAnyOrder((new String[0]))));
 
 		double expectetPrice = 2 * TEST_PRODUCTS[0].getPrice();
-		addItemsToChart(TEST_PRODUCTS[0], testUserName, 2);
-		readChart(testUserName, expectetPrice);
+		addItemsToChart(TEST_PRODUCTS[0], testChart, 2);
+		readChart(testChart.getName(), expectetPrice);
 
 		expectetPrice += TEST_PRODUCTS[1].getPrice() * 5;
-		addItemsToChart(TEST_PRODUCTS[1], testUserName, 5);
-		readChart(testUserName, expectetPrice);
+		addItemsToChart(TEST_PRODUCTS[1], testChart, 5);
+		readChart(testChart.getName(), expectetPrice);
 	}
 	
 	private void readChart(String name, double expectetPrice) throws Exception{
@@ -140,12 +142,12 @@ public class StoreApplicationTests {
 		//.andExpect(jsonPath("$.eans", containsInAnyOrder(tmp_EANS.toArray(new String[0]))));
 	}
 	
-	private void addItemsToChart(Product product, String name, int quantity) throws Exception{
+	private void addItemsToChart(Product product, Chart chart, int quantity) throws Exception{
 
-		Chartitem item = new Chartitem(product.getSku(), quantity);
+		Chartitem item = new Chartitem(chart, product.getSku(), quantity);
 		String json = json(item);
 		
-		this.mockMvc.perform(put("/charts/"+name)
+		this.mockMvc.perform(put("/charts/"+chart.getName())
 			.contentType(contentType).content(json)).andExpect(status().isOk());
 	}
 

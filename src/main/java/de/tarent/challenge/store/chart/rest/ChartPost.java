@@ -17,8 +17,15 @@ public class ChartPost {
 		this.chartService = chartService;
 	}
 
+	/**
+	 * Creating a new Chart with the given name
+	 * @param name
+	 * @return
+	 */
 	public ResponseEntity<?> createNewChart(String name) {
 
+		// TODO: Only if there is at least one Item!
+		
 		// Validate and throw Error if not there
 		if (name == null || name.trim().length() <= 0) {
 			throw new ChartNameInvalidException();

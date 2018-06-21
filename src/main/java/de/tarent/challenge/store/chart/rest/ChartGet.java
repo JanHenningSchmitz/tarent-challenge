@@ -22,7 +22,7 @@ public class ChartGet {
 	}
 
 	/**
-	 * Get one Chart by ID
+	 * Get one Chart by name
 	 * 
 	 * @param sku
 	 * @return
