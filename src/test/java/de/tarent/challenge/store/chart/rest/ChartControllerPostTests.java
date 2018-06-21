@@ -12,14 +12,24 @@ import de.tarent.challenge.store.chart.ChartControllerTests;
 public class ChartControllerPostTests extends ChartControllerTests {
 
 	@Test
-	public void addItemsToChart() throws Exception {
+	public void addNewChart() throws Exception {
 
-		// Chartitem item = new Chartitem(TEST_PRODUCTS[2].getSku(), 2);
-		// String json = json(item);
-		//
-		// this.mockMvc.perform(put("/charts/" +
-		// TESTCHARTS[1].getName()).contentType(contentType).content(json))
-		// .andExpect(status().isOk());
+
+	}
+	
+	@Test
+	public void addChartWithInvalidName() throws Exception {
+		
+	}
+
+	@Test
+	public void addNewChartWithoutItems() throws Exception {
+		
+	}
+	
+	@Test
+	public void addNewChartWithInavailableItem() throws Exception {
+		
 	}
 
 }

@@ -40,7 +40,7 @@ public class ChartController {
 
 		this.chartPut = new ChartPut(chartService, chartValidator, chartitemValidator);
 		this.chartPost = new ChartPost(chartService, chartValidator);
-		this.chartDelete = new ChartDelete(chartService);
+		this.chartDelete = new ChartDelete(chartService, chartGet);
 	}
 
 	/**
@@ -107,10 +107,23 @@ public class ChartController {
 	 * @param item
 	 * @return
 	 */
-	@RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{name}/item", method = RequestMethod.DELETE)
 	public Chart deleteItem(@PathVariable String name, @RequestBody Chartitem item) {
 
 		return chartPut.deleteItem(name, item);
+
+	}
+	/**
+	 * Delete an Item from the Chart
+	 * 
+	 * @param name
+	 * @param item
+	 * @return
+	 */
+	@RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+	public void deleteChart(@PathVariable String name) {
+
+		chartDelete.deleteChartByName(name);
 
 	}
 
