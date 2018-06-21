@@ -1,9 +1,11 @@
 package de.tarent.challenge.store.chart.rest.validation;
 
+import de.tarent.challenge.exeptions.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.ChartIsCheckedOutException;
 import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.ChartIsNullException;
 import de.tarent.challenge.exeptions.ChartNameInvalidException;
+import de.tarent.challenge.exeptions.ChartNotFoundException;
 import de.tarent.challenge.exeptions.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
@@ -41,9 +43,18 @@ public class ChartValidator {
 		}
 
 		String name = chart.getName();
-		// Validate and throw Error if not there
+		// Validate and throw Error if empty or null
 		if (name == null || name.trim().length() <= 0) {
 			throw new ChartNameInvalidException();
+		}
+
+		// Validate and throw Error if allready there
+		try {
+			if (chartGet.retrieveChartByName(chart.getName()) != null) {
+				throw new ChartAllreadyInUseException(chart.getName());
+			}
+		} catch (ChartNotFoundException cnfe) {
+			// Do nothing, since this exception is wanted in this case
 		}
 
 		// Should be at least one item in the chart

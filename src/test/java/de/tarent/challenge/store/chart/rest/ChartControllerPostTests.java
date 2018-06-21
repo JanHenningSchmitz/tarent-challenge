@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
+import de.tarent.challenge.exeptions.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.ChartWithWrongTotalPriceException;
@@ -36,6 +37,19 @@ public class ChartControllerPostTests extends ChartControllerTests {
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(chart)))
 				.andExpect(status().isCreated());
 
+	}
+
+	@Test
+	public void addChartThatIsAllreadyThere() throws Exception {
+
+		ResultActions resultActions = this.mockMvc
+				.perform(post("/charts").contentType(contentType).content(json(TESTCHARTS[0])))
+				.andExpect(status().is(ChartAllreadyInUseException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!ChartAllreadyInUseException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
 	}
 
 	@Test

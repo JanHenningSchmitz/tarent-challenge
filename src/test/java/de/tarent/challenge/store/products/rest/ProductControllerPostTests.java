@@ -21,6 +21,7 @@ import de.tarent.challenge.exeptions.InvalidProductNameException;
 import de.tarent.challenge.exeptions.InvalidSkuException;
 import de.tarent.challenge.exeptions.NoEansException;
 import de.tarent.challenge.exeptions.PriceLowerZeroException;
+import de.tarent.challenge.exeptions.ProductAllreadyInUseException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductControllerTests;
 
@@ -59,7 +60,13 @@ public class ProductControllerPostTests extends ProductControllerTests {
 		Product tmp_Product = TEST_PRODUCTS[0];
 		String json = json(tmp_Product);
 
-		this.mockMvc.perform(post("/products").contentType(contentType).content(json));
+		ResultActions resultActions = this.mockMvc.perform(post("/products").contentType(contentType).content(json))
+				.andExpect(status().is(ProductAllreadyInUseException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!ProductAllreadyInUseException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
 
 	}
 
@@ -184,7 +191,7 @@ public class ProductControllerPostTests extends ProductControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
-	
+
 	@Test
 	public void addEmptyEans() throws Exception {
 
