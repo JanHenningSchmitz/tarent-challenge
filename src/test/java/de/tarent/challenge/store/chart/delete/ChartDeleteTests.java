@@ -1,4 +1,4 @@
-package de.tarent.challenge.store.chart.rest.delete;
+package de.tarent.challenge.store.chart.delete;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

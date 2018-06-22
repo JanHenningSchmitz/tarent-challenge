@@ -1,4 +1,4 @@
-package de.tarent.challenge.store.chart.rest.get;
+package de.tarent.challenge.store.chart.get;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
