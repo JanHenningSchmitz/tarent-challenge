@@ -14,10 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import de.tarent.challenge.exeptions.SkuNotFoundException;
 import de.tarent.challenge.exeptions.product.ean.CantDeleteLastEan;
 import de.tarent.challenge.exeptions.product.ean.EanAllreadyOnProductException;
 import de.tarent.challenge.exeptions.product.ean.EanNotOnProductException;
+import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.ProductControllerTests;
 
 @RunWith(SpringRunner.class)

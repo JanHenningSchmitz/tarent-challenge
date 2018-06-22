@@ -1,6 +1,6 @@
 package de.tarent.challenge.store.chart.rest;
 
-import de.tarent.challenge.exeptions.ChartNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 

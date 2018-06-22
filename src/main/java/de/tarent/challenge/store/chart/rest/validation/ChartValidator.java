@@ -1,12 +1,12 @@
 package de.tarent.challenge.store.chart.rest.validation;
 
-import de.tarent.challenge.exeptions.ChartAllreadyInUseException;
-import de.tarent.challenge.exeptions.ChartIsCheckedOutException;
-import de.tarent.challenge.exeptions.ChartIsEmptyOnCreateException;
-import de.tarent.challenge.exeptions.ChartIsNullException;
-import de.tarent.challenge.exeptions.ChartNameInvalidException;
-import de.tarent.challenge.exeptions.ChartNotFoundException;
-import de.tarent.challenge.exeptions.ChartWithWrongTotalPriceException;
+import de.tarent.challenge.exeptions.chart.ChartAllreadyInUseException;
+import de.tarent.challenge.exeptions.chart.ChartIsCheckedOutException;
+import de.tarent.challenge.exeptions.chart.ChartIsEmptyOnCreateException;
+import de.tarent.challenge.exeptions.chart.ChartIsNullException;
+import de.tarent.challenge.exeptions.chart.ChartNameInvalidException;
+import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;

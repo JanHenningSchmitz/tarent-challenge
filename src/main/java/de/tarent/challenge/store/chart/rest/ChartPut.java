@@ -1,10 +1,10 @@
 package de.tarent.challenge.store.chart.rest;
 
-import de.tarent.challenge.exeptions.CouldNotCheckOutChartException;
-import de.tarent.challenge.exeptions.ErrorWhileAddingItem;
-import de.tarent.challenge.exeptions.ErrorWhileDeletingChart;
-import de.tarent.challenge.exeptions.ItemNotInChartException;
-import de.tarent.challenge.exeptions.NotEnoughItemsInChartEcxeption;
+import de.tarent.challenge.exeptions.chart.ItemNotInChartException;
+import de.tarent.challenge.exeptions.chart.NotEnoughItemsInChartEcxeption;
+import de.tarent.challenge.exeptions.write.CouldNotCheckOutChartException;
+import de.tarent.challenge.exeptions.write.ErrorWhileAddingItem;
+import de.tarent.challenge.exeptions.write.ErrorWhileDeletingChart;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 import de.tarent.challenge.store.chart.item.Chartitem;
@@ -116,8 +116,8 @@ public class ChartPut {
 		chart.getItems().add(chartitem);
 		
 		// Remove from Chart if there are non left
-		if (Chartitem.getQuantity(foundForRemove) <= 0) {
-			chart.getItems().remove(foundForRemove);
+		if (Chartitem.getQuantity(chartitem) <= 0) {
+			chart.getItems().remove(chartitem);
 		}
 
 		// Delete the Chart if there are no Items left

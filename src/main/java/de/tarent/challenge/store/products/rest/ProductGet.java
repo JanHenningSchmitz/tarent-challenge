@@ -1,6 +1,6 @@
 package de.tarent.challenge.store.products.rest;
 
-import de.tarent.challenge.exeptions.SkuNotFoundException;
+import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
 

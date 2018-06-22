@@ -1,12 +1,12 @@
 package de.tarent.challenge.store.products.rest.validation;
 
-import de.tarent.challenge.exeptions.SkuNotFoundException;
 import de.tarent.challenge.exeptions.product.ean.EanIsEmptyException;
 import de.tarent.challenge.exeptions.product.ean.NoEansException;
 import de.tarent.challenge.exeptions.product.name.InvalidProductNameException;
 import de.tarent.challenge.exeptions.product.price.PriceLowerZeroException;
 import de.tarent.challenge.exeptions.product.sku.InvalidSkuException;
 import de.tarent.challenge.exeptions.product.sku.ProductAllreadyInUseException;
+import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.rest.ProductGet;
 

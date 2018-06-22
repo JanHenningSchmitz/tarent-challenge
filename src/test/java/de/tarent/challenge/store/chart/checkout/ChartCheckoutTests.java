@@ -1,7 +1,5 @@
 package de.tarent.challenge.store.chart.checkout;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,7 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import de.tarent.challenge.exeptions.ChartIsCheckedOutException;
+import de.tarent.challenge.exeptions.chart.ChartIsCheckedOutException;
+import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForCheckOutException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
@@ -24,7 +23,7 @@ import de.tarent.challenge.store.chart.item.Chartitem;
 @SpringBootTest
 public class ChartCheckoutTests extends ChartControllerTests {
 
-	protected Chart testchart2 = null;
+	protected Chart checkedOutTestChart;
 
 	@Before
 	public void setup() throws Exception {
@@ -33,9 +32,10 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		Set<String> tmp_ChartItems = new HashSet<String>();
 		tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 1));
 
-		testchart2 = new Chart(this.getClass().getSimpleName() + 2, tmp_ChartItems, (this.testproduct.getPrice()));
-		testchart2.setCheckedout();
-		createTestChart(testchart2);
+		checkedOutTestChart = new Chart(this.getClass().getSimpleName() + 2, tmp_ChartItems,
+				(this.testproduct.getPrice()));
+		checkedOutTestChart.setCheckedout();
+		createTestChart(checkedOutTestChart);
 	}
 
 	@Test
@@ -50,9 +50,9 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		String item = Chartitem.createChartitem(testproduct.getSku(), quantity);
 
 		double expectetPrice = quantity * testproduct.getPrice();
-		testchart2.setTotalprice(testchart2.getTotalprice() + expectetPrice);
+		checkedOutTestChart.setTotalprice(checkedOutTestChart.getTotalprice() + expectetPrice);
 
-		ResultActions resultActions = addItemsToChart(testchart2.getName(), item)
+		ResultActions resultActions = addItemsToChart(checkedOutTestChart.getName(), item)
 				.andExpect(status().is(ChartIsCheckedOutException.STATUS.value()));
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
@@ -67,9 +67,9 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		String item = Chartitem.createChartitem(testproduct.getSku(), quantity);
 
 		double expectetPrice = quantity * testproduct.getPrice();
-		testchart2.setTotalprice(testchart2.getTotalprice() + expectetPrice);
+		checkedOutTestChart.setTotalprice(checkedOutTestChart.getTotalprice() + expectetPrice);
 
-		ResultActions resultActions = deleteItemsFromChart(testchart2.getName(), item)
+		ResultActions resultActions = deleteItemsFromChart(checkedOutTestChart.getName(), item)
 				.andExpect(status().is(ChartIsCheckedOutException.STATUS.value()));
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
@@ -82,32 +82,28 @@ public class ChartCheckoutTests extends ChartControllerTests {
 	public void checkOutWithUnavailableProducts() throws Exception {
 
 		// TODO Write this test
-		
-		// TEST_PRODUCTS[2].setAvailable(false);
-		//
-		// this.mockMvc.perform(
-		// put("/products/" +
-		// TEST_PRODUCTS[2].getSku()).contentType(contentType).content(json(TEST_PRODUCTS[2])))
-		// .andExpect(status().isOk());
-		//
-		// ResultActions resultActions = this.mockMvc
-		// .perform(put("/charts/" + TESTCHARTS[3].getName() +
-		// "/checkout").contentType(contentType))
-		// .andExpect(status().is(ProductIsNotAvailableForCheckOutException.STATUS.value()));
-		//
-		// String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
-		// if (!ProductIsNotAvailableForCheckOutException.MESSAGE.equals(errorMsg)) {
-		// throw new Exception(errorMsg);
-		// }
 
-	}
+		// Adding Item
+		int quantity = 1;
+		String item = Chartitem.createChartitem(testproduct.getSku(), quantity);
+		addItemsToChart(testchart.getName(), item).andExpect(status().isOk());
 
-	private ResultActions addItemsToChart(String chartname, String chartitem) throws Exception {
-		return this.mockMvc.perform(post("/charts/" + chartname + "/add/" + chartitem).contentType(contentType));
-	}
+		// Making Item Unavailable
+		testproduct.setAvailable(false);
+		String uri = "/products/" + testproduct.getSku() + "/available/" + false;
+		ResultActions resultActionsAvailable = this.mockMvc.perform(put(uri).contentType(contentType))
+				.andExpect(status().isOk());
+		controllProduct(resultActionsAvailable, testproduct);
 
-	private ResultActions deleteItemsFromChart(String chartname, String chartitem) throws Exception {
+		// Checking out
+		ResultActions resultActionsCheckOut = this.mockMvc
+				.perform(put("/charts/" + testchart.getName() + "/checkout").contentType(contentType))
+				.andExpect(status().is(ProductIsNotAvailableForCheckOutException.STATUS.value()));
 
-		return this.mockMvc.perform(delete("/charts/" + chartname + "/delete/" + chartitem).contentType(contentType));
+		String errorMsg = resultActionsCheckOut.andReturn().getResponse().getErrorMessage();
+		if (!ProductIsNotAvailableForCheckOutException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+
 	}
 }

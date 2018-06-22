@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import de.tarent.challenge.exeptions.ChartNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 
 @RunWith(SpringRunner.class)
@@ -21,6 +21,11 @@ public class ChartDeleteTests extends ChartControllerTests {
 	public void setup() throws Exception {
 		super.setup(this.getClass().getSimpleName());
 	}
+	
+	/**
+	 * Successfully delete a chart
+	 * @throws Exception
+	 */
 	@Test
 	public void deleteChartByName() throws Exception {
 
@@ -28,6 +33,10 @@ public class ChartDeleteTests extends ChartControllerTests {
 		 .andExpect(status().isOk());
 	}
 
+	/**
+	 * Trying to delete a non existing chart and failing
+	 * @throws Exception
+	 */
 	@Test
 	public void deleteChartByNameThatsNotThere() throws Exception {
 

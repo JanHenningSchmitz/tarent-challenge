@@ -1,7 +1,10 @@
 package de.tarent.challenge.store;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -18,6 +21,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import de.tarent.challenge.store.chart.Chart;
@@ -52,6 +56,13 @@ public class StoreApplicationTests {
 	protected Product testproduct = null;
 	protected Chart testchart = null;
 
+	/**
+	 * 1. Deleting the DB Content
+	 * 2. Creating a Product: testproduct
+	 * 3. Creating a Chart: testchart
+	 * @param testproductname
+	 * @throws Exception
+	 */
 	public void setup(String testproductname) throws Exception {
 
 		this.mockMvc = webAppContextSetup(webApplicationContext).build();
@@ -72,18 +83,44 @@ public class StoreApplicationTests {
 		createTestChart(testchart);
 	}
 
+	/**
+	 * Call MockMvc to create a product
+	 * @param product
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	protected void createTestProduct(Product product) throws IOException, Exception {
 
 		this.mockMvc.perform(post("/products").contentType(contentType).content(json(product)))
 				.andExpect(status().isCreated());
 	}
 
+	/**
+	 * Call MockMvc to create a chart
+	 * @param product
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	protected void createTestChart(Chart chart) throws IOException, Exception {
 
 		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(chart)))
 				.andExpect(status().isCreated());
 	}
 
+	/**
+	 * Controll if a given Product is equals the Json from an result
+	 * @param resultActions
+	 * @param product
+	 * @throws Exception
+	 */
+	protected void controllProduct(ResultActions resultActions, Product product) throws Exception {
+		resultActions.andExpect(jsonPath("$.sku", is(product.getSku())))
+				.andExpect(jsonPath("$.name", is(product.getName())))
+				.andExpect(jsonPath("$.price", is(product.getPrice())))
+				.andExpect(jsonPath("$.available", is(product.isAvailable())))
+				.andExpect(jsonPath("$.eans", containsInAnyOrder(product.getEans().toArray(new String[0]))));
+	}
+	
 	/**
 	 * Unchecked, since its only for test purpose
 	 * 

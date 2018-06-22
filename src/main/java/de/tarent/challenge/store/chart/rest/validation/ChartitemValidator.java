@@ -1,9 +1,10 @@
 package de.tarent.challenge.store.chart.rest.validation;
 
-import de.tarent.challenge.exeptions.ChartItemIsNullException;
-import de.tarent.challenge.exeptions.ProductIsNotAvailableForAddingException;
-import de.tarent.challenge.exeptions.SkuNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartItemIsNullException;
+import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForAddingException;
+import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForCheckOutException;
 import de.tarent.challenge.exeptions.chart.quantity.ChartitemQuantityBelowZeroException;
+import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
@@ -68,7 +69,7 @@ public class ChartitemValidator {
 		Product product = getProduct(sku);
 
 		if (!product.isAvailable()) {
-			throw new ProductIsNotAvailableForAddingException(product);
+			throw new ProductIsNotAvailableForCheckOutException(product);
 		}
 	}
 }

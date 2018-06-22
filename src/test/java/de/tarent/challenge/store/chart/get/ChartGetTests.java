@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
-import de.tarent.challenge.exeptions.ChartNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
@@ -44,19 +44,27 @@ public class ChartGetTests extends ChartControllerTests {
 		createTestChart(testchart2);
 	}
 
+	/**
+	 * Successfully read a chart by his name
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void readChartByName() throws Exception {
 
-		Chart chart = testchart;
-
-		ResultActions resultActions = mockMvc.perform(get("/charts/" + chart.getName()));
+		ResultActions resultActions = super.readChartByName(testchart);
 
 		resultActions.andExpect(status().isOk()).andExpect(content().contentType(contentType));
 
-		controllChart(resultActions, chart);
+		controllChart(resultActions, testchart);
 
 	}
 
+	/**
+	 * Trying to read a chart that is not there and failing
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void readChartByInvalidName() throws Exception {
 
@@ -68,6 +76,11 @@ public class ChartGetTests extends ChartControllerTests {
 		}
 	}
 
+	/**
+	 * Read all the charts
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void readCharts() throws Exception {
 		Chart[] charts = new Chart[] { testchart, testchart2 };
