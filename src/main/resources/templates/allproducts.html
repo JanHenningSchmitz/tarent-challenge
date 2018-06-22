@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Showing all Checked Out Charts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<p th:text="'Number of checked out Charts: ' + ${chartsize}" />
+	
+	<div th:each ="chartForThymeleaf : ${chartsForThymeleaf}">
+		
+		<table>		
+			<tr>
+				<td>ChartName: </td>
+				<td th:utext="${chartForThymeleaf.name}">...</td>
+			</tr>		
+			<tr>
+				<td>CheckedOut: </td>
+				<td th:utext="${chartForThymeleaf.checkedout}">...</td>
+			</tr>		
+			<tr>
+				<td>Totalprice: </td>
+				<td th:utext="${chartForThymeleaf.totalprice}">...</td>
+			</tr>		
+			<tr>
+				<td>Items: </td>
+				
+				<td>
+					<table>
+						<tr th:each ="chartItemForThymeleaf : ${chartForThymeleaf.items}">
+							<td  th:utext="${chartItemForThymeleaf.sku}">...</td>
+							<td  th:utext="${chartItemForThymeleaf.quantity}">...</td>
+						</tr>
+					</table>
+				</td>
+			</tr>		
+		</table>
+	
+	</div>
+
+</body>
+</html>

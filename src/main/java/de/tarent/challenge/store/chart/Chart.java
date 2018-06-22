@@ -51,6 +51,11 @@ public class Chart {
 		this.totalprice = totalprice;
 		this.checkedout = false;
 	}
+	
+	public Chart(String name, Set<String> items, double totalprice, boolean checkedout) {
+		this(name, items, totalprice);
+		this.checkedout = checkedout;
+	}
 
 	public boolean isCheckedout() {
 		return checkedout;

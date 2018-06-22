@@ -17,8 +17,8 @@ import de.tarent.challenge.store.products.rest.ProductPut;
 import de.tarent.challenge.store.products.rest.validation.ProductValidator;
 
 /**
- * Rest controller for the URI /products
- * calls the product rest classes
+ * Rest controller for the URI /products calls the product rest classes
+ * 
  * @author Jan-Henning Schmitz
  * @author tarent
  *
@@ -114,7 +114,8 @@ public class ProductController {
 	 * @throws Exception
 	 */
 	@PutMapping(value = "/{sku}/available/{newAvailable}")
-	public Product changeProductAvailable(@PathVariable String sku, @PathVariable boolean newAvailable) throws Exception {
+	public Product changeProductAvailable(@PathVariable String sku, @PathVariable boolean newAvailable)
+			throws Exception {
 		return productPut.changeProductAvailable(sku, newAvailable);
 	}
 
