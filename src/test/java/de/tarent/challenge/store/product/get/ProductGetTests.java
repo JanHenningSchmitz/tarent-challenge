@@ -43,6 +43,10 @@ public class ProductGetTests extends ProductControllerTests {
 		createTestProduct(testproduct2);
 	}
 
+	/**
+	 * Get a Product by sku
+	 * @throws Exception
+	 */
 	@Test
 	public void retrieveProductBySku() throws Exception {
 
@@ -59,6 +63,10 @@ public class ProductGetTests extends ProductControllerTests {
 
 	}
 
+	/**
+	 * Try to get a product by sku not in db and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void retrieveProductBySkuNotFound() throws Exception {
 
@@ -74,6 +82,10 @@ public class ProductGetTests extends ProductControllerTests {
 
 	}
 
+	/**
+	 * Get all products
+	 * @throws Exception
+	 */
 	@Test
 	public void retrieveProducts() throws Exception {
 

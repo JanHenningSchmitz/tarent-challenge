@@ -25,6 +25,10 @@ public class ProductNameTests extends ProductControllerTests {
 	}
 
 	@Test
+	/**
+	 * Change name of a product
+	 * @throws Exception
+	 */
 	public void changeName() throws Exception {
 
 		testproduct.setName("newName");
@@ -37,6 +41,10 @@ public class ProductNameTests extends ProductControllerTests {
 		controllProduct(resultActions, testproduct);
 	}
 
+	/**
+	 * change name of a product not in db and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void changeNameInvalidSku() throws Exception {
 
