@@ -41,9 +41,6 @@ public class ProductService {
 		productCatalog.flush();
 	}
 
-	/**
-	 * JUST FOR TESTING! TODO: Anyway to keep this out of the Production Build?
-	 */
 	public void deleteAll() {
 		productCatalog.deleteAll();
 		productCatalog.flush();

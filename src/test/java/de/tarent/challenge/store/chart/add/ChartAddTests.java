@@ -11,13 +11,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.chart.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.chart.ChartIsEmptyOnCreateException;
-import de.tarent.challenge.exeptions.chart.ChartIsNullException;
 import de.tarent.challenge.exeptions.chart.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.chart.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
@@ -234,8 +232,7 @@ public class ChartAddTests extends ChartControllerTests {
 	@Test
 	public void creatingAChartWithChartIsNull() throws Exception {
 
-		this.mockMvc.perform(post("/charts").contentType(contentType))
-				.andExpect(status().isBadRequest());
+		this.mockMvc.perform(post("/charts").contentType(contentType)).andExpect(status().isBadRequest());
 
 	}
 

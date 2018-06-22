@@ -3,7 +3,6 @@ package de.tarent.challenge.store.chart.rest.validation;
 import de.tarent.challenge.exeptions.chart.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.chart.ChartIsCheckedOutException;
 import de.tarent.challenge.exeptions.chart.ChartIsEmptyOnCreateException;
-import de.tarent.challenge.exeptions.chart.ChartIsNullException;
 import de.tarent.challenge.exeptions.chart.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.exeptions.chart.ChartWithWrongTotalPriceException;
@@ -30,6 +29,7 @@ public class ChartValidator {
 
 	/**
 	 * Validate a chart that should be altered
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -48,6 +48,7 @@ public class ChartValidator {
 
 	/**
 	 * Validate a new chart
+	 * 
 	 * @param chart
 	 */
 	public void validateNewChart(Chart chart) {

@@ -43,10 +43,6 @@ public class ChartService {
 		chartCatalog.flush();
 	}
 	
-	/**
-	 * JUST FOR TESTING!
-	 * TODO: Anyway to keep this out of the Production Build?
-	 */
 	public void deleteAll() {
 		chartCatalog.deleteAll();
 		chartCatalog.flush();
