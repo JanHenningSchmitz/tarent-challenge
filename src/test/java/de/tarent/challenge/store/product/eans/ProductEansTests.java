@@ -2,7 +2,6 @@ package de.tarent.challenge.store.product.eans;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.product.ean.CantDeleteLastEan;
 import de.tarent.challenge.exeptions.product.ean.EanAllreadyOnProductException;
+import de.tarent.challenge.exeptions.product.ean.EanIsEmptyException;
 import de.tarent.challenge.exeptions.product.ean.EanNotOnProductException;
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.ProductControllerTests;
@@ -26,11 +26,16 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Before
 	public void setup() throws IOException, Exception {
-		
+
 		super.setup(this.getClass().getSimpleName());
 	}
 
 	@Test
+	/**
+	 * Add a EAN to an existing Product
+	 * 
+	 * @throws Exception
+	 */
 	public void addEan() throws Exception {
 
 		testproduct.getEans().add("newEan");
@@ -44,6 +49,11 @@ public class ProductEansTests extends ProductControllerTests {
 	}
 
 	@Test
+	/**
+	 * Add an EA from that is allready there
+	 * 
+	 * @throws Exception
+	 */
 	public void addEanThatIsAllreadyThere() throws Exception {
 
 		testproduct.getEans().add("ean1");
@@ -60,6 +70,11 @@ public class ProductEansTests extends ProductControllerTests {
 	}
 
 	@Test
+	/**
+	 * Delte an EAN from an existing prduct
+	 * 
+	 * @throws Exception
+	 */
 	public void deleteEan() throws Exception {
 
 		testproduct.getEans().remove("ean1");
@@ -73,6 +88,11 @@ public class ProductEansTests extends ProductControllerTests {
 	}
 
 	@Test
+	/**
+	 * Try to delete the last ean and fail
+	 * 
+	 * @throws Exception
+	 */
 	public void deleteLastEan() throws Exception {
 
 		deleteEan();
@@ -91,6 +111,11 @@ public class ProductEansTests extends ProductControllerTests {
 	}
 
 	@Test
+	/**
+	 * Delete an EAN that is not there and fail
+	 * 
+	 * @throws Exception
+	 */
 	public void deleteEanThatIsNotThere() throws Exception {
 
 		testproduct.getEans().remove("eanNotThere");
@@ -107,15 +132,85 @@ public class ProductEansTests extends ProductControllerTests {
 	}
 
 	@Test
-	public void changeNameInvalidSku() throws Exception {
+	/**
+	 * Delete an EAN that is not there and fail
+	 * 
+	 * @throws Exception
+	 */
+	public void deleteEanFromAProductThatIstNotThere() throws Exception {
 
-		String uri = "/products/" + testproduct.getSku() + "invalid" + "/name/" + "newName";
+		testproduct.getEans().remove("ean1");
 
-		ResultActions resultActions = this.mockMvc.perform(put(uri).contentType(contentType))
+		String uri = "/products/nothere/eans/" + "ean1";
+
+		ResultActions resultActions = this.mockMvc.perform(delete(uri).contentType(contentType))
 				.andExpect(status().is(SkuNotFoundException.STATUS.value()));
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
 		if (!SkuNotFoundException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
+
+	@Test
+	/**
+	 * Add an EA from that is allready there
+	 * 
+	 * @throws Exception
+	 */
+	public void addEanTToAProductThatIsNotThere() throws Exception {
+
+		testproduct.getEans().add("ean1");
+
+		String uri = "/products/notthere/eans/" + "ean1";
+
+		ResultActions resultActions = this.mockMvc.perform(post(uri).contentType(contentType))
+				.andExpect(status().is(SkuNotFoundException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!SkuNotFoundException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
+
+	@Test
+	/**
+	 * Delete invalid ean and fail
+	 * 
+	 * @throws Exception
+	 */
+	public void deleteInvalidEan() throws Exception {
+
+		testproduct.getEans().remove("   ");
+
+		String uri = "/products/" + testproduct.getSku() + "/eans/" + "   ";
+
+		ResultActions resultActions = this.mockMvc.perform(delete(uri).contentType(contentType))
+				.andExpect(status().is(EanIsEmptyException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!EanIsEmptyException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
+
+	@Test
+	/**
+	 * Add an invalid to Product and fail
+	 * 
+	 * @throws Exception
+	 */
+	public void addInvalidEanToProduct() throws Exception {
+
+		testproduct.getEans().add("    ");
+
+		String uri = "/products/" + testproduct.getSku() + "/eans/" + "   ";
+
+		ResultActions resultActions = this.mockMvc.perform(post(uri).contentType(contentType))
+				.andExpect(status().is(EanIsEmptyException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!EanIsEmptyException.MESSAGE.equals(errorMsg)) {
 			throw new Exception(errorMsg);
 		}
 	}
