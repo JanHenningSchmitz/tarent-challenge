@@ -9,6 +9,13 @@ import javax.persistence.Id;
 
 import com.google.common.base.MoreObjects;
 
+/**
+ * Entity Bean Product with Database Definitions
+ * 
+ * @author Jan-Henning Schmitz
+ * @author tarent
+ *
+ */
 @Entity
 public class Product {
 
@@ -84,9 +91,8 @@ public class Product {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Product product = (Product) o;
-		return
-		Objects.equals(sku, product.sku) && Objects.equals(name, product.name) && Objects.equals(eans, product.eans)
-				&& Objects.equals(price, product.price);
+		return Objects.equals(sku, product.sku) && Objects.equals(name, product.name)
+				&& Objects.equals(eans, product.eans) && Objects.equals(price, product.price);
 	}
 
 	@Override
@@ -96,7 +102,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("sku", sku).add("name", name).add("eans", eans).add("price", price).toString();
+		return MoreObjects.toStringHelper(this).add("sku", sku).add("name", name).add("eans", eans).add("price", price)
+				.toString();
 	}
 }

@@ -12,6 +12,12 @@ import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.chart.rest.ChartGet;
 import de.tarent.challenge.store.products.Product;
 
+/**
+ * Helper class to validate a chart
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartValidator {
 
 	private final ChartitemValidator chartitemValidator;
@@ -22,6 +28,11 @@ public class ChartValidator {
 		this.chartitemValidator = chartitemValidator;
 	}
 
+	/**
+	 * Validate a chart that should be altered
+	 * @param name
+	 * @return
+	 */
 	public Chart validateChartForAltering(String name) {
 
 		// Validate and throw Error if not there
@@ -35,11 +46,15 @@ public class ChartValidator {
 		return chart;
 	}
 
+	/**
+	 * Validate a new chart
+	 * @param chart
+	 */
 	public void validateNewChart(Chart chart) {
 
 		// Validate chart
 		if (chart == null) {
-			throw new ChartIsNullException();
+			// can never be here, chart = null -> badRequest
 		}
 
 		String name = chart.getName();

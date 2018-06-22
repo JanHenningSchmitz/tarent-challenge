@@ -4,6 +4,12 @@ import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 
+/**
+ * DELETE Methods for Chart
+ * calls the chart service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartDelete {
 
 	private final ChartService chartService;

@@ -10,6 +10,11 @@ import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
 
+/**
+ * Helper class to validate a chart item
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartitemValidator {
 
 	private final ProductService productService;

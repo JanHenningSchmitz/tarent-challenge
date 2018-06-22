@@ -5,6 +5,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for the Product chart, calls the catalog
+ * @author Jan-Henning Schmitz
+ *
+ */
 @Service
 public class ChartService {
 	private final ChartCatalog chartCatalog;

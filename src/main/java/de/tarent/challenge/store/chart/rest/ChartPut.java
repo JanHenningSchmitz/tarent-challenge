@@ -12,6 +12,12 @@ import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
 import de.tarent.challenge.store.chart.rest.validation.ChartitemValidator;
 import de.tarent.challenge.store.products.Product;
 
+/**
+ * PUT Methods for Chart
+ * calls the chart service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartPut {
 
 	private final ChartValidator chartValidator;

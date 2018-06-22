@@ -4,6 +4,12 @@ import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 
+/**
+ * Get Methods for Chart
+ * calls the chart service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartGet {
 
 	private final ChartService chartService;

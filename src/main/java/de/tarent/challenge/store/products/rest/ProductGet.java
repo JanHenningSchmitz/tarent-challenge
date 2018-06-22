@@ -4,6 +4,12 @@ import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
 
+/**
+ * GET Methods for Product
+ * calls the product service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ProductGet {
 
 	private final ProductService productService;

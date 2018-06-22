@@ -10,6 +10,11 @@ import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.rest.ProductGet;
 
+/**
+ * Helper class to validate a product
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ProductValidator {
 
 	private final ProductGet productGet;

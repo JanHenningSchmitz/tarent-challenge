@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 
+/**
+ * Entity Bean Chart with Database Definitions
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @Entity
 public class Chart {
 
@@ -19,6 +25,7 @@ public class Chart {
 	@NotNull
 	private String name;
 
+	// See: Chart item
 	// @OneToMany(fetch = FetchType.EAGER, mappedBy = "chart", cascade = {
 	// CascadeType.MERGE,
 	// CascadeType.REFRESH }, orphanRemoval = true)

@@ -11,11 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.chart.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.chart.ChartIsEmptyOnCreateException;
+import de.tarent.challenge.exeptions.chart.ChartIsNullException;
 import de.tarent.challenge.exeptions.chart.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.chart.ChartWithWrongTotalPriceException;
 import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
@@ -26,8 +28,10 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
+
 /**
  * Test class for chart adding test cases
+ * 
  * @author Jan-Henning Schmitz
  *
  */
@@ -130,6 +134,7 @@ public class ChartAddTests extends ChartControllerTests {
 
 	/**
 	 * Adding a new Chart with a Item that is unavailable
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -153,6 +158,7 @@ public class ChartAddTests extends ChartControllerTests {
 
 	/**
 	 * Adding a Chart with a IInvalid SKU Item
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -174,7 +180,6 @@ public class ChartAddTests extends ChartControllerTests {
 
 	}
 
-	
 	/**
 	 * Adding new chart with an invalid chart item string
 	 */
@@ -195,6 +200,7 @@ public class ChartAddTests extends ChartControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
+
 	/**
 	 * Creating a Chart with an Chart item that has Zero Quantity's
 	 * 
@@ -218,6 +224,19 @@ public class ChartAddTests extends ChartControllerTests {
 		if (!ChartitemQuantityBelowZeroException.MESSAGE.equals(errorMsg)) {
 			throw new Exception(errorMsg);
 		}
+	}
+
+	/**
+	 * Creating a Chart with an Chart item that has Zero Quantity's
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void creatingAChartWithChartIsNull() throws Exception {
+
+		this.mockMvc.perform(post("/charts").contentType(contentType))
+				.andExpect(status().isBadRequest());
+
 	}
 
 	/**

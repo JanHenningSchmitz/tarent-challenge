@@ -8,6 +8,12 @@ import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
 import de.tarent.challenge.store.products.rest.validation.ProductValidator;
 
+/**
+ * PUT Methods for Product
+ * calls the product service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ProductPut {
 
 	private final ProductService productService;
@@ -19,7 +25,7 @@ public class ProductPut {
 	}
 
 	/**
-	 * Changin the Name of a given Product
+	 * Changing the Name of a given Product
 	 * 
 	 * @param sku
 	 * @param newName
@@ -43,7 +49,7 @@ public class ProductPut {
 	}
 
 	/**
-	 * Changin the price of a given Product
+	 * Changing the price of a given Product
 	 * 
 	 * @param sku
 	 * @param newName
@@ -67,7 +73,7 @@ public class ProductPut {
 	}
 
 	/**
-	 * Changin the price of a given Product
+	 * Changing the available flag of a given Product
 	 * 
 	 * @param sku
 	 * @param newName
@@ -122,7 +128,7 @@ public class ProductPut {
 	}
 
 	/**
-	 * Removing a EAN from the Product
+	 * adding a EAN to the Product
 	 * 
 	 * @param sku
 	 * @param newName

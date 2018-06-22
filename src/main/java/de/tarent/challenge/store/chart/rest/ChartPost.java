@@ -9,6 +9,12 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartService;
 import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
 
+/**
+ * POST Methods for Chart
+ * calls the chart service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartPost {
 
 	private final ChartService chartService;

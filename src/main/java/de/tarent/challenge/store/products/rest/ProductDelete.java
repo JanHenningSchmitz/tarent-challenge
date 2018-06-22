@@ -4,6 +4,12 @@ import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.products.Product;
 import de.tarent.challenge.store.products.ProductService;
 
+/**
+ * DELETE Methods for Product
+ * calls the product service
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ProductDelete {
 
 	private final ProductService productService;
@@ -15,7 +21,7 @@ public class ProductDelete {
 	}
 
 	/**
-	 * Deleting a Product by sku
+	 * Deleting a Product by SKU
 	 */
 	public void deleteBySKU(String sku) {
 

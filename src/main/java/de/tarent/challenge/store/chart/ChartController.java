@@ -18,6 +18,12 @@ import de.tarent.challenge.store.chart.rest.validation.ChartValidator;
 import de.tarent.challenge.store.chart.rest.validation.ChartitemValidator;
 import de.tarent.challenge.store.products.ProductService;
 
+/**
+ * Rest controller for the URI /charts
+ * calls the charts rest classes
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RestController
 @RequestMapping("/charts")
 public class ChartController {

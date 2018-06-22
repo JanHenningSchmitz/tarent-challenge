@@ -30,7 +30,9 @@ import de.tarent.challenge.store.products.Product;
 
 /**
  * Superclass for test cases with wiring of context and helper methods
+ * 
  * @author Jan-Henning Schmitz
+ * @author tarent
  *
  */
 public class StoreApplicationTests {
@@ -62,9 +64,9 @@ public class StoreApplicationTests {
 	protected Chart testchart = null;
 
 	/**
-	 * 1. Deleting the DB Content
-	 * 2. Creating a Product: test product
-	 * 3. Creating a Chart: test chart
+	 * 1. Deleting the DB Content 2. Creating a Product: test product 3. Creating a
+	 * Chart: test chart
+	 * 
 	 * @param testproductname
 	 * @throws Exception
 	 */
@@ -84,12 +86,13 @@ public class StoreApplicationTests {
 		Set<String> tmp_ChartItems = new HashSet<String>();
 		tmp_ChartItems.add(Chartitem.createChartitem(this.testproduct.getSku(), 2));
 
-		testchart = new Chart("testchart", tmp_ChartItems, (this.testproduct.getPrice()*2));
+		testchart = new Chart("testchart", tmp_ChartItems, (this.testproduct.getPrice() * 2));
 		createTestChart(testchart);
 	}
 
 	/**
 	 * Call MockMvc to create a product
+	 * 
 	 * @param product
 	 * @throws IOException
 	 * @throws Exception
@@ -102,6 +105,7 @@ public class StoreApplicationTests {
 
 	/**
 	 * Call MockMvc to create a chart
+	 * 
 	 * @param product
 	 * @throws IOException
 	 * @throws Exception
@@ -114,6 +118,7 @@ public class StoreApplicationTests {
 
 	/**
 	 * Control if a given Product is equals the JSON from an result
+	 * 
 	 * @param resultActions
 	 * @param product
 	 * @throws Exception
@@ -125,7 +130,7 @@ public class StoreApplicationTests {
 				.andExpect(jsonPath("$.available", is(product.isAvailable())))
 				.andExpect(jsonPath("$.eans", containsInAnyOrder(product.getEans().toArray(new String[0]))));
 	}
-	
+
 	/**
 	 * Unchecked, since its only for test purpose
 	 * 

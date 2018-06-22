@@ -16,6 +16,13 @@ import de.tarent.challenge.store.products.rest.ProductPost;
 import de.tarent.challenge.store.products.rest.ProductPut;
 import de.tarent.challenge.store.products.rest.validation.ProductValidator;
 
+/**
+ * Rest controller for the URI /products
+ * calls the product rest classes
+ * @author Jan-Henning Schmitz
+ * @author tarent
+ *
+ */
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -47,7 +54,7 @@ public class ProductController {
 	}
 
 	/**
-	 * Get one Product by sku
+	 * Get one Product by SKU
 	 * 
 	 * @param sku
 	 * @return
@@ -138,7 +145,7 @@ public class ProductController {
 	}
 
 	/**
-	 * Deleting a Product by sku
+	 * Deleting a Product by SKU
 	 */
 	@DeleteMapping("/{sku}")
 	public void deleteBySKU(@PathVariable String sku) {
