@@ -13,6 +13,12 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Doesn't work anymore
+ * @author Jan-Henning Schmitz
+ *
+ */
+@Deprecated
 public class ChallengeProductConsoleApp {
 
 	public static final String URL = "http://localhost:8080/";

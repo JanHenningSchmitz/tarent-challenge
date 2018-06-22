@@ -1,6 +1,7 @@
 package de.tarent.challenge.ui;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -11,6 +12,12 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Doesn't work anymore
+ * @author Jan-Henning Schmitz
+ *
+ */
+@Deprecated
 public class ChallengeChartConsoleApp {
 
 	public static final String URL = "http://localhost:8080/";
