@@ -18,6 +18,7 @@ import de.tarent.challenge.exeptions.chart.ChartAllreadyInUseException;
 import de.tarent.challenge.exeptions.chart.ChartIsEmptyOnCreateException;
 import de.tarent.challenge.exeptions.chart.ChartNameInvalidException;
 import de.tarent.challenge.exeptions.chart.ChartWithWrongTotalPriceException;
+import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
 import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForAddingException;
 import de.tarent.challenge.exeptions.chart.quantity.ChartitemQuantityBelowZeroException;
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
@@ -169,6 +170,27 @@ public class ChartAddTests extends ChartControllerTests {
 
 	}
 
+	
+	/**
+	 * Adding new chart with an invalid chart item string
+	 */
+	@Test
+	public void deleteInvalidChartItemString() throws Exception {
+
+		Set<String> items = new HashSet<String>();
+		items.add("invalid");
+
+		Chart chart = new Chart("newtestchart", items, (2));
+
+		ResultActions resultActions = this.mockMvc
+				.perform(post("/charts").contentType(contentType).content(json(chart)))
+				.andExpect(status().is(SkuNotFoundException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!ChartitemStringNotValidException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
 	/**
 	 * Creating a Chart with an Chartitem that hast Zero Quantitys
 	 * 

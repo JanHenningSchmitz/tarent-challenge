@@ -56,6 +56,10 @@ public class ProductAddTest extends ProductControllerTests {
 
 	}
 
+	/**
+	 * Try to add a product thats already in the database and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addDublicateProduct() throws Exception {
 
@@ -72,6 +76,10 @@ public class ProductAddTest extends ProductControllerTests {
 
 	}
 
+	/**
+	 * Try to add with a invalid sku and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addInvalidSkuProduct() throws Exception {
 		String sku = "   ";
@@ -93,6 +101,10 @@ public class ProductAddTest extends ProductControllerTests {
 
 	}
 
+	/**
+	 * try to add without a sku and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addNullSkuProduct() throws Exception {
 		String sku = null;
@@ -113,6 +125,10 @@ public class ProductAddTest extends ProductControllerTests {
 		}
 	}
 
+	/**
+	 * try to create with invalid name and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addInvalidNameProduct() throws Exception {
 		String sku = "notCreated";
@@ -133,6 +149,10 @@ public class ProductAddTest extends ProductControllerTests {
 		}
 	}
 
+	/**
+	 * try to add without name and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addNullNameProduct() throws Exception {
 		String sku = "notCreated";
@@ -153,6 +173,10 @@ public class ProductAddTest extends ProductControllerTests {
 		}
 	}
 
+	/**
+	 * try to create with price = 0 and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addPriceZeroProduct() throws Exception {
 
@@ -173,7 +197,35 @@ public class ProductAddTest extends ProductControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
+	/**
+	 * try to create with price < 0 and fail
+	 * @throws Exception
+	 */
+	@Test
+	public void addPriceBelowZeroProduct() throws Exception {
 
+		String sku = "notCreated";
+		String name = "notCreated";
+		double price = -5;
+		Set<String> tmp_EANS = new HashSet<String>();
+		tmp_EANS.addAll(Arrays.asList("notCreated"));
+
+		Product tmp_Product = new Product(sku, name, price, true, tmp_EANS);
+		String json = json(tmp_Product);
+
+		ResultActions resultActions = this.mockMvc.perform(post("/products").contentType(contentType).content(json))
+				.andExpect(status().is(PriceLowerZeroException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!PriceLowerZeroException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
+
+	/**
+	 * Try to create with empty ean list and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addEmptyListEansProduct() throws Exception {
 		String sku = "notCreated";
@@ -194,8 +246,12 @@ public class ProductAddTest extends ProductControllerTests {
 		}
 	}
 
+	/**
+	 * Try to create new with invalid eans and fail
+	 * @throws Exception
+	 */
 	@Test
-	public void addEmptyEans() throws Exception {
+	public void addInvalidEans() throws Exception {
 
 		String sku = "notCreated";
 		String name = "notCreated";

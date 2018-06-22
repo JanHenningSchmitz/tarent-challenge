@@ -24,12 +24,20 @@ public class ProductDeleteTests extends ProductControllerTests {
 		super.setup(this.getClass().getSimpleName());
 	}
 
+	/**
+	 * Delete all products
+	 * @throws Exception
+	 */
 	@Test
 	public void deleteAllProducts() throws Exception {
 
 		this.mockMvc.perform(delete("/products/all")).andExpect(status().isOk());
 	}
 
+	/**
+	 * delete a single product
+	 * @throws Exception
+	 */
 	@Test
 	public void deleteProduct() throws Exception {
 
@@ -37,6 +45,10 @@ public class ProductDeleteTests extends ProductControllerTests {
 				.andExpect(status().isOk());
 	}
 
+	/**
+	 * delete a non existiing product and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addDeleteProductThatsNotThere() throws Exception {
 

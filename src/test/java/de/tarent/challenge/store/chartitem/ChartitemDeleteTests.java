@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
+import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
 import de.tarent.challenge.exeptions.chart.ItemNotInChartException;
 import de.tarent.challenge.exeptions.chart.NotEnoughItemsInChartEcxeption;
 import de.tarent.challenge.exeptions.chart.quantity.ChartitemQuantityBelowZeroException;
@@ -87,6 +88,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 
 	/**
 	 * Deleting with an item without a vaild quantity and failing
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -107,6 +109,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 
 	/**
 	 * Delet more Items than there are in the chart and failing
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -129,6 +132,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 
 	/**
 	 * Deleting an unknown item from the chart and failing
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -148,7 +152,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
-	
+
 	/**
 	 * Deleting with an invalid chart item string
 	 */
@@ -156,10 +160,10 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 	public void deleteInvalidChartItemString() throws Exception {
 
 		ResultActions resultActions = deleteItemsFromChart(testchart.getName(), "invalid")
-				.andExpect(status().is(ItemNotInChartException.STATUS.value()));
+				.andExpect(status().is(ChartitemStringNotValidException.STATUS.value()));
 
 		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
-		if (!ItemNotInChartException.MESSAGE.equals(errorMsg)) {
+		if (!ChartitemStringNotValidException.MESSAGE.equals(errorMsg)) {
 			throw new Exception(errorMsg);
 		}
 	}

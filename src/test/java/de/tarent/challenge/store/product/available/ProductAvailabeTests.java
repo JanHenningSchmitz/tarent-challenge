@@ -24,6 +24,10 @@ public class ProductAvailabeTests extends ProductControllerTests {
 		super.setup(this.getClass().getSimpleName());
 	}
 
+	/**
+	 * Changing the availability of a product
+	 * @throws Exception
+	 */
 	@Test
 	public void changeAvailable() throws Exception {
 
@@ -37,6 +41,10 @@ public class ProductAvailabeTests extends ProductControllerTests {
 		controllProduct(resultActions, testproduct);
 	}
 
+	/**
+	 * Changing the availability of a invalid product and fail 
+	 * @throws Exception
+	 */
 	@Test
 	public void changeAvailableInvalidSku() throws Exception {
 

@@ -28,6 +28,17 @@ public class Chartitem {
 		int q = getQuantity(chartitem) - quantity;
 		return getSku(chartitem) + SPLITTER + q;
 	}
+	
+	public static final boolean isValidString(String chartitem) {
+		
+		try {
+			getSku(chartitem);
+			getQuantity(chartitem);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+	}
 
 	// @Id
 	// private String sku;

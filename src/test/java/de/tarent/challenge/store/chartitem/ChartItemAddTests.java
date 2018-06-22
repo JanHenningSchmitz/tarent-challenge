@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
+import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
 import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForAddingException;
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
 import de.tarent.challenge.store.chart.ChartControllerTests;
@@ -95,7 +96,7 @@ public class ChartItemAddTests extends ChartControllerTests {
 	 * @throws Exception
 	 */
 	@Test
-	public void addInvalidItemToChart() throws Exception {
+	public void addInvalidSkuItemToChart() throws Exception {
 
 		int quantity = 1;
 		String item = Chartitem.createChartitem("invalid", quantity);
@@ -132,5 +133,20 @@ public class ChartItemAddTests extends ChartControllerTests {
 
 		controllChart(resultActions, testchart);
 
+	}
+
+	/**
+	 * Deleting with an invalid chart item string
+	 */
+	@Test
+	public void addInvalidChartItemString() throws Exception {
+
+		ResultActions resultActions = addItemsToChart(testchart.getName(), "invalid");
+		resultActions.andExpect(status().is(ChartitemStringNotValidException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!ChartitemStringNotValidException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
 	}
 }

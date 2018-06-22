@@ -1,6 +1,7 @@
 package de.tarent.challenge.store.chart.rest.validation;
 
 import de.tarent.challenge.exeptions.chart.ChartItemIsNullException;
+import de.tarent.challenge.exeptions.chart.ChartitemStringNotValidException;
 import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForAddingException;
 import de.tarent.challenge.exeptions.chart.ProductIsNotAvailableForCheckOutException;
 import de.tarent.challenge.exeptions.chart.quantity.ChartitemQuantityBelowZeroException;
@@ -28,6 +29,10 @@ public class ChartitemValidator {
 		// Validate ChartItem != null
 		if (chartitem == null) {
 			throw new ChartItemIsNullException();
+		}
+		
+		if(!Chartitem.isValidString(chartitem)){
+			throw new ChartitemStringNotValidException();
 		}
 
 		String sku = Chartitem.getSku(chartitem);

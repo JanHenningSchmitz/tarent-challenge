@@ -32,11 +32,11 @@ public class ChartPut {
 		// Validate Chart and throw Error if not there
 		Chart chart = chartValidator.validateChartForAltering(name);
 
-		String sku = Chartitem.getSku(chartitem);
-		int quantity = Chartitem.getQuantity(chartitem);
-
 		// Validate Product and throw Error if not there
 		Product product = chartitemValidator.validateChartitem(chartitem);
+
+		String sku = Chartitem.getSku(chartitem);
+		int quantity = Chartitem.getQuantity(chartitem);
 
 		// Check if Item is available
 		chartitemValidator.productAvailableForAdding(product);
@@ -81,11 +81,12 @@ public class ChartPut {
 		// Validate Chart and throw Error if not there
 		Chart chart = chartValidator.validateChartForAltering(name);
 
+		// Validate Product and throw Error if not there
+		Product product = chartitemValidator.validateChartitem(chartitem);
+		
 		String sku = Chartitem.getSku(chartitem);
 		int quantity = Chartitem.getQuantity(chartitem);
 
-		// Validate Product and throw Error if not there
-		Product product = chartitemValidator.validateChartitem(chartitem);
 
 		String foundForRemove = null;
 		// should be not null at this point
