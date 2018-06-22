@@ -16,8 +16,8 @@ INSERT INTO product_eans (product_sku, eans) VALUES ('1488', '18754629');
 INSERT INTO product_eans (product_sku, eans) VALUES ('1488', '46025548');
 INSERT INTO product_eans (product_sku, eans) VALUES ('B001', '54342316');
 
-INSERT INTO chart (name, totalprice, checkedout) VALUES ('JanHenning', 10, false);
-INSERT INTO chart (name, totalprice, checkedout) VALUES ('MaxMustermann', 10, false);
+INSERT INTO chart (name, totalprice, checkedout, checkoutdate) VALUES ('JanHenning', 10, false, 0);
+INSERT INTO chart (name, totalprice, checkedout, checkoutdate) VALUES ('MaxMustermann', 10, false, 0);
 
 INSERT INTO chart_items(chart_name, items) VALUES ('JanHenning', '102,2');
 INSERT INTO chart_items(chart_name, items) VALUES ('JanHenning', 'S-155,2');

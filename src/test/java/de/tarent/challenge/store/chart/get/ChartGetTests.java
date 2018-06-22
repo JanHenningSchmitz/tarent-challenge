@@ -89,9 +89,12 @@ public class ChartGetTests extends ChartControllerTests {
 	@Test
 	public void readCharts() throws Exception {
 		Chart[] charts = new Chart[] { testchart, testchart2 };
-
+		
 		// At first check if the size is valid
-		ResultActions resultActions = mockMvc.perform(get("/charts")).andExpect(status().isOk())
+		ResultActions resultActions =
+				mockMvc.perform(
+									get("/charts")
+								).andExpect(status().isOk())
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(charts.length)));
 
 		// Now Check the Content

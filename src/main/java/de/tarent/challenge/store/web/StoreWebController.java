@@ -27,8 +27,6 @@ public class StoreWebController {
 	@GetMapping()
 	public String showAllCheckedOutCharts(Model model) throws Exception {
 
-		// TODO: only the checked out ones
-
 		List<Chart> charts = readAllCharts();
 
 		List<ChartForThymeleaf> chartsForThymeleaf = new ArrayList<ChartForThymeleaf>();
@@ -37,7 +35,8 @@ public class StoreWebController {
 		}
 
 		model.addAttribute("chartsize", charts.size());
-		model.addAttribute("chartsForThymeleaf", chartsForThymeleaf);
+		if (charts.size() > 0)
+			model.addAttribute("chartsForThymeleaf", chartsForThymeleaf);
 
 		return "allproducts";
 	}
@@ -59,12 +58,13 @@ public class StoreWebController {
 			String name = (String) linkedHashMap.get("name");
 			double totalprice = (double) linkedHashMap.get("totalprice");
 			boolean checkedout = (boolean) linkedHashMap.get("checkedout");
+			long checkoutdate = (long) linkedHashMap.get("checkoutdate");
 			Set<String> items = new HashSet<>();
-			for(String s : (ArrayList <String>) linkedHashMap.get("items")) {
+			for (String s : (ArrayList<String>) linkedHashMap.get("items")) {
 				items.add(s);
 			}
-			
-			Chart chart = new Chart(name, items, totalprice, checkedout);
+
+			Chart chart = new Chart(name, items, totalprice, checkedout, checkoutdate);
 			result.add(chart);
 		}
 

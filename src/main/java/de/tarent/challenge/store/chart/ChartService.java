@@ -1,5 +1,6 @@
 package de.tarent.challenge.store.chart;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,21 @@ public class ChartService {
 		return chartCatalog.saveAndFlush(chart);
 	}
 
-	public List<Chart> retrieveAllCharts() {
-		return chartCatalog.findAll();
+	public List<Chart> retrieveAllCharts(boolean checkedout) {
+		if(!checkedout) {
+			return chartCatalog.findAll();
+		}else {
+			List<Chart> result = new ArrayList<Chart>();
+			List<Chart> charts = chartCatalog.findAll();
+			
+			for(Chart chart : charts) {
+				if(chart.isCheckedout()) {
+					result.add(chart);
+				}
+			}
+			
+			return result;
+		}
 	}
 
 	public Optional<Chart> retrieveChartByName(String name) {

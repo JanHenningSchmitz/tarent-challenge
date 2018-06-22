@@ -53,9 +53,10 @@ public class ChartController {
 	 * 
 	 * @return
 	 */
-	@GetMapping
+	@GetMapping()
 	public Iterable<Chart> retrieveCharts() {
-		return chartGet.retrieveCharts();
+		// TODO: Right now there are only checked out charts viewable
+		return chartGet.retrieveCharts(true);
 	}
 
 	/**

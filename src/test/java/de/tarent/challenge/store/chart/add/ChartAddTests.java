@@ -64,7 +64,11 @@ public class ChartAddTests extends ChartControllerTests {
 
 		Chart chart = new Chart("newtestchart", items, (testproduct.getPrice()));
 
-		this.mockMvc.perform(post("/charts").contentType(contentType).content(json(chart)))
+		this.mockMvc.perform(
+					post("/charts")
+					.contentType(contentType)
+					.content(json(chart))
+				)
 				.andExpect(status().isCreated());
 
 	}

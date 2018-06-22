@@ -1,5 +1,6 @@
 package de.tarent.challenge.store.chart;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,6 +42,12 @@ public class Chart {
 
 	private boolean checkedout;
 
+	private long checkoutdate = 0l;
+
+	public long getCheckoutdate() {
+		return this.checkoutdate;
+	}
+
 	@SuppressWarnings("unused") // For JPA
 	private Chart() {
 	}
@@ -51,10 +58,11 @@ public class Chart {
 		this.totalprice = totalprice;
 		this.checkedout = false;
 	}
-	
-	public Chart(String name, Set<String> items, double totalprice, boolean checkedout) {
+
+	public Chart(String name, Set<String> items, double totalprice, boolean checkedout, long checkoutdate) {
 		this(name, items, totalprice);
 		this.checkedout = checkedout;
+		this.checkoutdate = checkoutdate;
 	}
 
 	public boolean isCheckedout() {
@@ -66,6 +74,7 @@ public class Chart {
 	 */
 	public void setCheckedout() {
 		this.checkedout = true;
+		checkoutdate = new Date().getTime();
 	}
 
 	public String getName() {
@@ -91,8 +100,8 @@ public class Chart {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Chart chart = (Chart) o;
-		return Objects.equals(name, chart.name)
-				&& Objects.equals(items, chart.items) && Objects.equals(totalprice, chart.totalprice);
+		return Objects.equals(name, chart.name) && Objects.equals(items, chart.items)
+				&& Objects.equals(totalprice, chart.totalprice);
 	}
 
 	@Override
@@ -103,7 +112,7 @@ public class Chart {
 	@Override
 	public String toString() {
 
-		return MoreObjects.toStringHelper(this).add("name", name).add("items", items)
-				.add("totalPrice", totalprice).toString();
+		return MoreObjects.toStringHelper(this).add("name", name).add("items", items).add("totalPrice", totalprice)
+				.toString();
 	}
 }

@@ -23,8 +23,9 @@ public class ChartGet {
 	 * 
 	 * @return
 	 */
-	public Iterable<Chart> retrieveCharts() {
-		return chartService.retrieveAllCharts();
+	public Iterable<Chart> retrieveCharts(boolean checkedout) {
+				
+		return chartService.retrieveAllCharts(checkedout);
 	}
 
 	/**

@@ -1,6 +1,8 @@
 package de.tarent.challenge.store.web;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -17,7 +19,8 @@ public class ChartForThymeleaf {
 	public String name;
 	public double totalprice;
 	public boolean checkedout;
-	
+	public String formattedDate;
+
 	@ElementCollection
 	public List<ChartItemForThymeleaf> items;
 
@@ -26,6 +29,11 @@ public class ChartForThymeleaf {
 		this.totalprice = chart.getTotalprice();
 		this.checkedout = chart.isCheckedout();
 		this.items = new ArrayList<ChartItemForThymeleaf>();
+
+		Date checkOutDate = new Date(chart.getCheckoutdate());
+		DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+		formattedDate = formatter.format(checkOutDate);
+
 		for (String chartitem : chart.getItems()) {
 			items.add(new ChartItemForThymeleaf(chartitem));
 		}
