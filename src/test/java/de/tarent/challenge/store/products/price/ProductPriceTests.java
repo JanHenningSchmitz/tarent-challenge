@@ -26,6 +26,10 @@ public class ProductPriceTests extends ProductControllerTests {
 		super.setup(this.getClass().getSimpleName());
 	}
 
+	/**
+	 * Change price of a product
+	 * @throws Exception
+	 */
 	@Test
 	public void changePrice() throws Exception {
 
@@ -39,6 +43,10 @@ public class ProductPriceTests extends ProductControllerTests {
 		controllProduct(resultActions, testproduct);
 	}
 
+	/**
+	 * try to change price of a product not in db and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void changePriceInvalidSku() throws Exception {
 
@@ -53,10 +61,32 @@ public class ProductPriceTests extends ProductControllerTests {
 		}
 	}
 
+	/**
+	 * try to change price to 0 and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void changePriceToZero() throws Exception {
 
 		String uri = "/products/" + testproduct.getSku() + "/price/" + 0;
+
+		ResultActions resultActions = this.mockMvc.perform(put(uri).contentType(contentType))
+				.andExpect(status().is(PriceLowerZeroException.STATUS.value()));
+
+		String errorMsg = resultActions.andReturn().getResponse().getErrorMessage();
+		if (!PriceLowerZeroException.MESSAGE.equals(errorMsg)) {
+			throw new Exception(errorMsg);
+		}
+	}
+	
+	/**
+	 * try to change price to below 0 and fail
+	 * @throws Exception
+	 */
+	@Test
+	public void changePriceToBelowZero() throws Exception {
+
+		String uri = "/products/" + testproduct.getSku() + "/price/" + -5;
 
 		ResultActions resultActions = this.mockMvc.perform(put(uri).contentType(contentType))
 				.andExpect(status().is(PriceLowerZeroException.STATUS.value()));
