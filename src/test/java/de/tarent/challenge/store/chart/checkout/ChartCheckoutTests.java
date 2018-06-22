@@ -19,6 +19,11 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 
+/**
+ * Test class for chart checkout test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartCheckoutTests extends ChartControllerTests {
@@ -38,12 +43,20 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		createTestChart(checkedOutTestChart);
 	}
 
+	/**
+	 * Checking out a chart
+	 * @throws Exception
+	 */
 	@Test
 	public void checkOutChart() throws Exception {
 		this.mockMvc.perform(put("/charts/" + testchart.getName() + "/checkout").contentType(contentType))
 				.andExpect(status().isOk());
 	}
 
+	/**
+	 * Adding to checked out chart and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void addToCheckedOutChart() throws Exception {
 		int quantity = 1;
@@ -61,6 +74,10 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		}
 	}
 
+	/**
+	 * Deleting from checked out chart and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void deleteFromToCheckedOutChart() throws Exception {
 		int quantity = 1;
@@ -78,10 +95,12 @@ public class ChartCheckoutTests extends ChartControllerTests {
 		}
 	}
 
+	/**
+	 * Check out a chart with unavailable products and fail
+	 * @throws Exception
+	 */
 	@Test
 	public void checkOutWithUnavailableProducts() throws Exception {
-
-		// TODO Write this test
 
 		// Adding Item
 		int quantity = 1;

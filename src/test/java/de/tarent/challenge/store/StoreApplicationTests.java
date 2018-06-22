@@ -28,6 +28,11 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
+/**
+ * Superclass for test cases with wiring of context and helper methods
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class StoreApplicationTests {
 
 	protected MockMvc mockMvc;
@@ -36,7 +41,7 @@ public class StoreApplicationTests {
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 	/**
-	 * rawtypes, since its only for test purpose
+	 * raw types, since its only for test purpose
 	 */
 	@SuppressWarnings("rawtypes")
 	protected HttpMessageConverter mappingJackson2HttpMessageConverter;
@@ -58,8 +63,8 @@ public class StoreApplicationTests {
 
 	/**
 	 * 1. Deleting the DB Content
-	 * 2. Creating a Product: testproduct
-	 * 3. Creating a Chart: testchart
+	 * 2. Creating a Product: test product
+	 * 3. Creating a Chart: test chart
 	 * @param testproductname
 	 * @throws Exception
 	 */
@@ -108,7 +113,7 @@ public class StoreApplicationTests {
 	}
 
 	/**
-	 * Controll if a given Product is equals the Json from an result
+	 * Control if a given Product is equals the JSON from an result
 	 * @param resultActions
 	 * @param product
 	 * @throws Exception

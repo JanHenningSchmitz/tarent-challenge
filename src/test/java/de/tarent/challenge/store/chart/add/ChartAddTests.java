@@ -26,7 +26,11 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
-
+/**
+ * Test class for chart adding test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartAddTests extends ChartControllerTests {
@@ -37,7 +41,7 @@ public class ChartAddTests extends ChartControllerTests {
 	public void setup() throws Exception {
 		super.setup(this.getClass().getSimpleName());
 
-		// Creating testdata
+		// Creating test data
 		Set<String> test_product2_eans = new HashSet<String>();
 		test_product2_eans.addAll(Arrays.asList("00000000", "00000001"));
 		unavailableProduct = new Product("unavailableProduct", "unavailableProduct" + 2, 2.1, false,
@@ -64,7 +68,7 @@ public class ChartAddTests extends ChartControllerTests {
 	}
 
 	/**
-	 * Adding a Chart with an allready taken name
+	 * Adding a Chart with an already taken name
 	 * 
 	 * @throws Exception
 	 */
@@ -104,7 +108,7 @@ public class ChartAddTests extends ChartControllerTests {
 	}
 
 	/**
-	 * Creating a Chart with no Chartitems
+	 * Creating a Chart with no Chart items
 	 * 
 	 * @throws Exception
 	 */
@@ -192,7 +196,7 @@ public class ChartAddTests extends ChartControllerTests {
 		}
 	}
 	/**
-	 * Creating a Chart with an Chartitem that hast Zero Quantitys
+	 * Creating a Chart with an Chart item that has Zero Quantity's
 	 * 
 	 * @throws Exception
 	 */

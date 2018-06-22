@@ -14,11 +14,17 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.product.price.PriceLowerZeroException;
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
-import de.tarent.challenge.store.products.ProductControllerTests;
+import de.tarent.challenge.store.StoreApplicationTests;
 
+/**
+ * Test class for product price altering test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductPriceTests extends ProductControllerTests {
+public class ProductPriceTests extends StoreApplicationTests {
 
 	@Before
 	public void setup() throws IOException, Exception {
@@ -28,6 +34,7 @@ public class ProductPriceTests extends ProductControllerTests {
 
 	/**
 	 * Change price of a product
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -44,7 +51,8 @@ public class ProductPriceTests extends ProductControllerTests {
 	}
 
 	/**
-	 * try to change price of a product not in db and fail
+	 * try to change price of a product not in DB and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -63,6 +71,7 @@ public class ProductPriceTests extends ProductControllerTests {
 
 	/**
 	 * try to change price to 0 and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -78,9 +87,10 @@ public class ProductPriceTests extends ProductControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
-	
+
 	/**
 	 * try to change price to below 0 and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test

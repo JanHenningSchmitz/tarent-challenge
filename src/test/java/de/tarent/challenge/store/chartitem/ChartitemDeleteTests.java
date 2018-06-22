@@ -22,6 +22,11 @@ import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
+/**
+ * Test class for chart delete item test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartitemDeleteTests extends ChartControllerTests {
@@ -87,7 +92,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 	}
 
 	/**
-	 * Deleting with an item without a vaild quantity and failing
+	 * Deleting with an item without a valid quantity and failing
 	 * 
 	 * @throws Exception
 	 */
@@ -108,7 +113,7 @@ public class ChartitemDeleteTests extends ChartControllerTests {
 	}
 
 	/**
-	 * Delet more Items than there are in the chart and failing
+	 * Delete more Items than there are in the chart and failing
 	 * 
 	 * @throws Exception
 	 */

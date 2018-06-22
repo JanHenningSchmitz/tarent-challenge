@@ -10,6 +10,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.store.StoreApplicationTests;
 
+/**
+ * Superclass for chart test cases with helper methods
+ * @author Jan-Henning Schmitz
+ *
+ */
 public class ChartControllerTests extends StoreApplicationTests {
 
 	/**

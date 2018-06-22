@@ -13,11 +13,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
-import de.tarent.challenge.store.products.ProductControllerTests;
+import de.tarent.challenge.store.StoreApplicationTests;
 
+/**
+ * Test class for product deleting test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductDeleteTests extends ProductControllerTests {
+public class ProductDeleteTests extends StoreApplicationTests {
 
 	@Before
 	public void setup() throws IOException, Exception {
@@ -26,6 +32,7 @@ public class ProductDeleteTests extends ProductControllerTests {
 
 	/**
 	 * Delete all products
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -36,6 +43,7 @@ public class ProductDeleteTests extends ProductControllerTests {
 
 	/**
 	 * delete a single product
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -46,7 +54,8 @@ public class ProductDeleteTests extends ProductControllerTests {
 	}
 
 	/**
-	 * delete a non existiing product and fail
+	 * delete a non existing product and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test

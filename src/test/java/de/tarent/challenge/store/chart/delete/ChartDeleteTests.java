@@ -13,6 +13,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import de.tarent.challenge.exeptions.chart.ChartNotFoundException;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 
+/**
+ * Test class for chart delete test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartDeleteTests extends ChartControllerTests {

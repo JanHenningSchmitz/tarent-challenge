@@ -13,11 +13,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
-import de.tarent.challenge.store.products.ProductControllerTests;
+import de.tarent.challenge.store.StoreApplicationTests;
 
+/**
+ * Test class for product available altering test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductAvailabeTests extends ProductControllerTests {
+public class ProductAvailabeTests extends StoreApplicationTests {
 
 	@Before
 	public void setup() throws IOException, Exception {
@@ -26,6 +32,7 @@ public class ProductAvailabeTests extends ProductControllerTests {
 
 	/**
 	 * Changing the availability of a product
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -42,7 +49,8 @@ public class ProductAvailabeTests extends ProductControllerTests {
 	}
 
 	/**
-	 * Changing the availability of a invalid product and fail 
+	 * Changing the availability of a invalid product and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test

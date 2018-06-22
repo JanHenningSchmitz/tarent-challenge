@@ -18,11 +18,17 @@ import de.tarent.challenge.exeptions.product.ean.EanAllreadyOnProductException;
 import de.tarent.challenge.exeptions.product.ean.EanIsEmptyException;
 import de.tarent.challenge.exeptions.product.ean.EanNotOnProductException;
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
-import de.tarent.challenge.store.products.ProductControllerTests;
+import de.tarent.challenge.store.StoreApplicationTests;
 
+/**
+ * Test class for product EAN altering test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductEansTests extends ProductControllerTests {
+public class ProductEansTests extends StoreApplicationTests {
 
 	@Before
 	public void setup() throws IOException, Exception {
@@ -50,7 +56,7 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Test
 	/**
-	 * Add an EA from that is allready there
+	 * Add an EA from that is already there
 	 * 
 	 * @throws Exception
 	 */
@@ -71,7 +77,7 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Test
 	/**
-	 * Delte an EAN from an existing prduct
+	 * Delete an EAN from an existing product
 	 * 
 	 * @throws Exception
 	 */
@@ -89,7 +95,7 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Test
 	/**
-	 * Try to delete the last ean and fail
+	 * Try to delete the last EAN and fail
 	 * 
 	 * @throws Exception
 	 */
@@ -154,7 +160,7 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Test
 	/**
-	 * Add an EA from that is allready there
+	 * Add an EA from that is already there
 	 * 
 	 * @throws Exception
 	 */
@@ -175,7 +181,7 @@ public class ProductEansTests extends ProductControllerTests {
 
 	@Test
 	/**
-	 * Delete invalid ean and fail
+	 * Delete invalid EAN and fail
 	 * 
 	 * @throws Exception
 	 */

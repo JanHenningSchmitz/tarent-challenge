@@ -21,12 +21,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultActions;
 
 import de.tarent.challenge.exeptions.product.sku.SkuNotFoundException;
+import de.tarent.challenge.store.StoreApplicationTests;
 import de.tarent.challenge.store.products.Product;
-import de.tarent.challenge.store.products.ProductControllerTests;
 
+/**
+ * Test class for product reading test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductGetTests extends ProductControllerTests {
+public class ProductGetTests extends StoreApplicationTests {
 
 	protected Product testproduct2 = null;
 
@@ -35,7 +41,7 @@ public class ProductGetTests extends ProductControllerTests {
 
 		super.setup(this.getClass().getSimpleName());
 
-		// Creating testdata
+		// Creating test data
 		Set<String> test_product2_eans = new HashSet<String>();
 		test_product2_eans.addAll(Arrays.asList("00000000", "00000001"));
 		testproduct2 = new Product(this.getClass().getSimpleName() + 2, this.getClass().getSimpleName() + 2, 2.1, true,
@@ -44,7 +50,8 @@ public class ProductGetTests extends ProductControllerTests {
 	}
 
 	/**
-	 * Get a Product by sku
+	 * Get a Product by SKU
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -64,7 +71,8 @@ public class ProductGetTests extends ProductControllerTests {
 	}
 
 	/**
-	 * Try to get a product by sku not in db and fail
+	 * Try to get a product by SKU not in DB and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -84,6 +92,7 @@ public class ProductGetTests extends ProductControllerTests {
 
 	/**
 	 * Get all products
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -93,7 +102,7 @@ public class ProductGetTests extends ProductControllerTests {
 
 		String uri = "/products";
 
-		// At first check if the size ist valid
+		// At first check if the size is valid
 		ResultActions resultActions = mockMvc.perform(get(uri)).andExpect(status().isOk())
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(products.length)));
 

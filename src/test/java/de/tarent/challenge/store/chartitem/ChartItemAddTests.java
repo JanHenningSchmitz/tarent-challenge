@@ -20,6 +20,11 @@ import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 import de.tarent.challenge.store.products.Product;
 
+/**
+ * Test class for chart add item test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartItemAddTests extends ChartControllerTests {

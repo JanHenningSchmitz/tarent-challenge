@@ -22,18 +22,24 @@ import de.tarent.challenge.exeptions.product.name.InvalidProductNameException;
 import de.tarent.challenge.exeptions.product.price.PriceLowerZeroException;
 import de.tarent.challenge.exeptions.product.sku.InvalidSkuException;
 import de.tarent.challenge.exeptions.product.sku.ProductAllreadyInUseException;
+import de.tarent.challenge.store.StoreApplicationTests;
 import de.tarent.challenge.store.products.Product;
-import de.tarent.challenge.store.products.ProductControllerTests;
 
+/**
+ * Test class for product adding test cases
+ * 
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductAddTest extends ProductControllerTests {
-	
+public class ProductAddTest extends StoreApplicationTests {
+
 	@Before
 	public void setup() throws IOException, Exception {
 		super.setup(this.getClass().getSimpleName());
 	}
-	
+
 	/**
 	 * Test if its possible to insert, read and delete a new Product without an
 	 * error
@@ -58,6 +64,7 @@ public class ProductAddTest extends ProductControllerTests {
 
 	/**
 	 * Try to add a product thats already in the database and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -77,7 +84,8 @@ public class ProductAddTest extends ProductControllerTests {
 	}
 
 	/**
-	 * Try to add with a invalid sku and fail
+	 * Try to add with a invalid SKU and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -102,7 +110,8 @@ public class ProductAddTest extends ProductControllerTests {
 	}
 
 	/**
-	 * try to add without a sku and fail
+	 * try to add without a SKU and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -127,6 +136,7 @@ public class ProductAddTest extends ProductControllerTests {
 
 	/**
 	 * try to create with invalid name and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -151,6 +161,7 @@ public class ProductAddTest extends ProductControllerTests {
 
 	/**
 	 * try to add without name and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -175,6 +186,7 @@ public class ProductAddTest extends ProductControllerTests {
 
 	/**
 	 * try to create with price = 0 and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -197,8 +209,10 @@ public class ProductAddTest extends ProductControllerTests {
 			throw new Exception(errorMsg);
 		}
 	}
+
 	/**
 	 * try to create with price < 0 and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -223,7 +237,8 @@ public class ProductAddTest extends ProductControllerTests {
 	}
 
 	/**
-	 * Try to create with empty ean list and fail
+	 * Try to create with empty EAN list and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -247,7 +262,8 @@ public class ProductAddTest extends ProductControllerTests {
 	}
 
 	/**
-	 * Try to create new with invalid eans and fail
+	 * Try to create new with invalid EANs and fail
+	 * 
 	 * @throws Exception
 	 */
 	@Test

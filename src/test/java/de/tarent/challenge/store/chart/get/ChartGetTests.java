@@ -22,6 +22,11 @@ import de.tarent.challenge.store.chart.Chart;
 import de.tarent.challenge.store.chart.ChartControllerTests;
 import de.tarent.challenge.store.chart.item.Chartitem;
 
+/**
+ * Test class for chart reading test cases
+ * @author Jan-Henning Schmitz
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ChartGetTests extends ChartControllerTests {
@@ -85,7 +90,7 @@ public class ChartGetTests extends ChartControllerTests {
 	public void readCharts() throws Exception {
 		Chart[] charts = new Chart[] { testchart, testchart2 };
 
-		// At first check if the size ist valid
+		// At first check if the size is valid
 		ResultActions resultActions = mockMvc.perform(get("/charts")).andExpect(status().isOk())
 				.andExpect(content().contentType(contentType)).andExpect(jsonPath("$", hasSize(charts.length)));
 
